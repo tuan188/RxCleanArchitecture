@@ -10,11 +10,40 @@ import Dto
 import RxSwift
 import RxCocoa
 import MGArchitecture
+import Factory
+import UIKit
 
-struct DynamicEditProductViewModel {
-    let navigator: DynamicEditProductNavigatorType
-    let useCase: DynamicEditProductUseCaseType
+class DynamicEditProductViewModel: UpdatingProduct, Dismissible {
+    @Injected(\.productGateway)
+    var productGateway: ProductGatewayProtocol
+
+    unowned var navigationController: UINavigationController
     let product: Product
+
+    init(navigationController: UINavigationController, product: Product) {
+        self.product = product
+        self.navigationController = navigationController
+    }
+    
+    func validateName(_ name: String) -> ValidationResult {
+        return ProductDto.validateName(name).mapToVoid()
+    }
+    
+    func validatePrice(_ price: String) -> ValidationResult {
+        return ProductDto.validatePriceString(price).mapToVoid()
+    }
+    
+    func update(_ product: ProductDto) -> Observable<Void> {
+        if let error = product.validationError {
+            return Observable.error(error)
+        }
+        
+        return updateProduct(product)
+    }
+    
+    func notifyUpdated(_ product: Product) {
+        NotificationCenter.default.post(name: Notification.Name.updatedProduct, object: product)
+    }
 }
 
 // MARK: - ViewModel
@@ -82,14 +111,14 @@ extension DynamicEditProductViewModel: ViewModel {
         
         let nameValidation = Driver.combineLatest(name, input.update)
             .map { $0.0 }
-            .map(useCase.validateName(_:))
+            .map { [unowned self] name in validateName(name) }
             .do(onNext: { result in
                 return output.nameValidation = result
             })
         
         let priceValidation = Driver.combineLatest(price, input.update)
             .map { $0.0 }
-            .map(useCase.validatePrice(_:))
+            .map { [unowned self] price in validatePrice(price) }
             .do(onNext: { result in
                 output.priceValidation = result
             })
@@ -130,26 +159,24 @@ extension DynamicEditProductViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         input.cancel
-            .do(onNext: navigator.dismiss)
-            .drive()
+            .drive(onNext: { [unowned self] in dismiss() })
             .disposed(by: disposeBag)
         
         input.update
             .withLatestFrom(isUpdateEnabled)
             .filter { $0 }
             .withLatestFrom(product)
-            .flatMapLatest { product in
-                self.useCase.update(product.toDto())
+            .flatMapLatest { [unowned self] product in
+                update(product.toDto())
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
                     .map { _ in product }
             }
-            .do(onNext: { product in
-                self.useCase.notifyUpdated(product)
-                self.navigator.dismiss()
+            .drive(onNext: { [unowned self] product in
+                notifyUpdated(product)
+                dismiss()
             })
-            .drive()
             .disposed(by: disposeBag)
         
         errorTracker.asDriver()

@@ -9,11 +9,14 @@
 import MGArchitecture
 import RxSwift
 import RxCocoa
+import Factory
 
-struct ProductDetailViewModel {
-    let navigator: ProductDetailNavigatorType
-    let useCase: ProductDetailUseCaseType
+class ProductDetailViewModel {
     let product: Product
+    
+    init(product: Product) {
+        self.product = product
+    }
 }
 
 // MARK: - ViewModel
@@ -35,7 +38,7 @@ extension ProductDetailViewModel: ViewModel {
         let output = Output()
         
         input.load
-            .map { self.product }
+            .map { [unowned self] _ in product }
             .map { product -> [Cell] in
                 return [
                     Cell.name(product.name),

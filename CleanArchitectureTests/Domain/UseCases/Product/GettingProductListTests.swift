@@ -14,7 +14,7 @@ import RxCocoa
 import MGArchitecture
 
 final class GettingProductListTests: XCTestCase, GettingProductList {
-    var productGateway: ProductGatewayType {
+    var productGateway: ProductGatewayProtocol {
         return productGatewayMock
     }
     

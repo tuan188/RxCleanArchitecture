@@ -13,6 +13,7 @@ import MGArchitecture
 import MGLoadMore
 import Reusable
 import SDWebImage
+import Factory
 
 final class RepoCollectionViewController: UIViewController, Bindable {
     
@@ -181,5 +182,16 @@ extension RepoCollectionViewController: UICollectionViewDataSourcePrefetching {
     
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         
+    }
+}
+
+extension Container {
+    func repoCollectionViewController(navigationController: UINavigationController) -> Factory<RepoCollectionViewController> {
+        Factory(self) {
+            let vc = RepoCollectionViewController.instantiate()
+            let vm = ReposViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
     }
 }

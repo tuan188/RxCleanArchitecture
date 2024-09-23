@@ -10,10 +10,15 @@ import MGArchitecture
 import RxSwift
 import RxCocoa
 import UIKit
+import Factory
 
-struct UserListViewModel {
-    let navigator: UserListNavigatorType
-    let useCase: UserListUseCaseType
+class UserListViewModel: GettingUsers {
+    @Injected(\.userGateway)
+    var userGatewayType: UserGatewayProtocol
+
+    func showUserDetail(user: User) {
+        print("User detail: \(user.name)")
+    }
 }
 
 // MARK: - ViewModel
@@ -35,9 +40,12 @@ extension UserListViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
         
-        let getListInput = GetListInput(loadTrigger: input.load,
-                                        reloadTrigger: input.reload,
-                                        getItems: useCase.getUserList)
+        let getListInput = GetListInput(
+            loadTrigger: input.load,
+            reloadTrigger: input.reload,
+            getItems: { [unowned self] in
+                getUsers()
+            })
         
         let getListResult = getList(input: getListInput)
         let (userList, error, isLoading, isReloading) = getListResult.destructured
@@ -60,7 +68,9 @@ extension UserListViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectUser, items: userList)
-            .drive(onNext: navigator.toUserDetail)
+            .drive(onNext: { [unowned self] user in
+                showUserDetail(user: user)
+            })
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading),

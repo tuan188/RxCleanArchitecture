@@ -10,10 +10,22 @@ import RxSwift
 import RxCocoa
 import MGArchitecture
 import UIKit
+import Factory
 
-struct SectionedProductsViewModel {
-    let navigator: SectionedProductsNavigatorType
-    let useCase: SectionedProductsUseCaseType
+class SectionedProductsViewModel: GettingProductList, ShowStaticProductDetail, ShowDynamicEditProduct {
+    @Injected(\.productGateway)
+    var productGateway: ProductGatewayProtocol
+    
+    unowned var navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+
+    func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
+        let dto = GetPageDto(page: page, perPage: 10, usingCache: true)
+        return getProductList(dto: dto)
+    }
 }
 
 // MARK: - ViewModel
@@ -80,8 +92,8 @@ extension SectionedProductsViewModel: ViewModel {
             loadTrigger: input.load,
             reloadTrigger: input.reload,
             loadMoreTrigger: input.loadMore,
-            getItems: { _, page in
-                return self.useCase.getProductList(page: page)
+            getItems: { [unowned self] _, page in
+                getProductList(page: page)
             },
             mapper: ProductModel.init(product:)
         )
@@ -129,8 +141,8 @@ extension SectionedProductsViewModel: ViewModel {
             .map { indexPath, productSections -> ProductModel in
                 return productSections[indexPath.section].productList[indexPath.row]
             }
-            .drive(onNext: { product in
-                self.navigator.toProductDetail(product: product.product)
+            .drive(onNext: { [unowned self] product in
+                showStaticProductDetail(product: product.product)
             })
             .disposed(by: disposeBag)
         
@@ -143,7 +155,9 @@ extension SectionedProductsViewModel: ViewModel {
             .withLatestFrom(productSections) { indexPath, productSections -> Product in
                 return productSections[indexPath.section].productList[indexPath.row].product
             }
-            .drive(onNext: self.navigator.toEditProduct)
+            .drive(onNext: { [unowned self] product in
+                showDynamicEditProduct(product)
+            })
             .disposed(by: disposeBag)
         
         input.updatedProduct

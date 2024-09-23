@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import MGArchitecture
 import MGLoadMore
+import Factory
 
 final class SectionedProductCollectionViewController: UIViewController, Bindable {
     
@@ -212,5 +213,16 @@ extension SectionedProductCollectionViewController: UICollectionViewDataSource {
             .then {
                 $0.titleLabel.text = section.header
             }
+    }
+}
+
+extension Container {
+    func sectionedProductCollectionViewController(navigationController: UINavigationController) -> Factory<SectionedProductCollectionViewController> {
+        Factory(self) {
+            let vc = SectionedProductCollectionViewController.instantiate()
+            let vm = SectionedProductsViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
     }
 }

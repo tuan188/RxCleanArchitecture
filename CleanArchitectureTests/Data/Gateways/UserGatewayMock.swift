@@ -10,7 +10,7 @@
 import UIKit
 import RxSwift
 
-final class UserGatewayMock: UserGatewayType {
+final class UserGatewayMock: UserGatewayProtocol {
 
     // MARK: - getUsers
 

@@ -10,10 +10,12 @@ import RxSwift
 import RxCocoa
 import MGArchitecture
 
-struct StaticProductDetailViewModel {
-    let navigator: StaticProductDetailNavigatorType
-    let useCase: StaticProductDetailUseCaseType
+class StaticProductDetailViewModel {
     let product: Product
+    
+    init(product: Product) {
+        self.product = product
+    }
 }
 
 // MARK: - ViewModel

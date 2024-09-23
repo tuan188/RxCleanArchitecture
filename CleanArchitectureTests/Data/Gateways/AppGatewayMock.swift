@@ -9,7 +9,7 @@
 @testable import CleanArchitecture
 import UIKit
 
-final class AppGatewayMock: AppGatewayType {
+final class AppGatewayMock: AppGatewayProtocol {
 
     // MARK: - checkFirstRun
 

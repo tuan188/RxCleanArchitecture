@@ -11,7 +11,7 @@ import RxSwift
 import MGArchitecture
 
 protocol GettingProductList {
-    var productGateway: ProductGatewayType { get }
+    var productGateway: ProductGatewayProtocol { get }
 }
 
 extension GettingProductList {

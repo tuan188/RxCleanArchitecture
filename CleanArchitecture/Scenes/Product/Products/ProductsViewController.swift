@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import MGArchitecture
 import MGLoadMore
+import Factory
 
 final class ProductsViewController: UIViewController, Bindable {
     
@@ -138,4 +139,15 @@ extension ProductsViewController: UITableViewDelegate {
 // MARK: - StoryboardSceneBased
 extension ProductsViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.product
+}
+
+extension Container {
+    func productsViewController(navigationController: UINavigationController) -> Factory<ProductsViewController> {
+        Factory(self) {
+            let vc = ProductsViewController.instantiate()
+            let vm = ProductsViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

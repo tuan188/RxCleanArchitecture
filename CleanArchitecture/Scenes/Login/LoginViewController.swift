@@ -11,6 +11,7 @@ import Reusable
 import RxSwift
 import RxCocoa
 import MGArchitecture
+import Factory
 
 final class LoginViewController: UIViewController, Bindable {
     
@@ -105,4 +106,15 @@ extension LoginViewController {
 // MARK: - StoryboardSceneBased
 extension LoginViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.main
+}
+
+extension Container {
+    func loginViewController(navigationController: UINavigationController) -> Factory<LoginViewController> {
+        Factory(self) {
+            let vc = LoginViewController.instantiate()
+            let vm = LoginViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

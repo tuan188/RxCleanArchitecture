@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 protocol UpdatingProduct {
-    var productGateway: ProductGatewayType { get }
+    var productGateway: ProductGatewayProtocol { get }
 }
 
 extension UpdatingProduct {

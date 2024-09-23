@@ -10,10 +10,24 @@ import MGArchitecture
 import RxSwift
 import RxCocoa
 import UIKit
+import Factory
 
-struct RepoCarouselViewModel {
-    let navigator: RepoCarouselNavigatorType
-    let useCase: RepoCarouselUseCaseType
+class RepoCarouselViewModel: GettingRepoList, ShowPageItemDetail {
+    @Injected(\.repoGateway)
+    var repoGateway: RepoGatewayProtocol
+
+    unowned var navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func getRepoList() -> Observable<[Repo]> {
+        return getRepoList(dto: GetPageDto(page: 1, perPage: 20, usingCache: true))
+            .map {
+                $0.items
+            }
+    }
 }
 
 // MARK: - ViewModel
@@ -35,9 +49,13 @@ extension RepoCarouselViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
         
-        let getListInput = GetListInput(loadTrigger: input.load,
-                                        reloadTrigger: input.reload,
-                                        getItems: useCase.getRepoList)
+        let getListInput = GetListInput(
+            loadTrigger: input.load,
+            reloadTrigger: input.reload,
+            getItems: { [unowned self] in
+                getRepoList()
+            }
+        )
         
         let getListResult = getList(input: getListInput)
         let (repoList, error, isLoading, isReloading) = getListResult.destructured
@@ -78,7 +96,9 @@ extension RepoCarouselViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectRepo, items: repoList)
-            .drive(onNext: navigator.toPageItemDetail)
+            .drive(onNext: { [unowned self] pageItem in
+                showPageItemDetail(pageItem)
+            })
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)

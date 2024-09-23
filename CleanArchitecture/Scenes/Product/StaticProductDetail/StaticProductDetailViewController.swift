@@ -11,6 +11,7 @@ import Reusable
 import RxSwift
 import RxCocoa
 import MGArchitecture
+import Factory
 
 final class StaticProductDetailViewController: UITableViewController, Bindable {
     
@@ -58,4 +59,15 @@ final class StaticProductDetailViewController: UITableViewController, Bindable {
 // MARK: - StoryboardSceneBased
 extension StaticProductDetailViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.product
+}
+
+extension Container {
+    func staticProductDetailViewController(product: Product) -> Factory<StaticProductDetailViewController> {
+        Factory(self) {
+            let vc = StaticProductDetailViewController.instantiate()
+            let vm = StaticProductDetailViewModel(product: product)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

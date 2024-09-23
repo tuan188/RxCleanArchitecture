@@ -11,9 +11,19 @@ import RxCocoa
 import MGArchitecture
 import UIKit
 
-struct MainViewModel {
-    let navigator: MainNavigatorType
-    let useCase: MainUseCaseType
+class MainViewModel: ShowLogin,
+                     ShowProducts,
+                     ShowRepoCarousel,
+                     ShowUsers,
+                     ShowRepos,
+                     ShowRepoCollection,
+                     ShowSectionedProducts,
+                     ShowSectionedProductCollection {
+    unowned var navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
 }
 
 // MARK: - ViewModel
@@ -41,24 +51,24 @@ extension MainViewModel: ViewModel {
             .map { indexPath in
                 output.menuSections[indexPath.section].menus[indexPath.row]
             }
-            .drive(onNext: { menu in
+            .drive(onNext: { [unowned self] menu in
                 switch menu {
                 case .products:
-                    self.navigator.toProducts()
+                    showProducts()
                 case .sectionedProducts:
-                    self.navigator.toSectionedProducts()
+                    showSectionedProducts()
                 case .sectionedProductCollection:
-                    self.navigator.toSectionedProductCollection()
+                    showSectionedProductCollection()
                 case .repos:
-                    self.navigator.toRepos()
+                    showRepos()
                 case .repoCollection:
-                    self.navigator.toRepoCollection()
+                    showRepoCollection()
                 case .repoCarousel:
-                    self.navigator.toRepoCarousel()
+                    showRepoCarousel()
                 case .users:
-                    self.navigator.toUsers()
+                    showUsers()
                 case .login:
-                    self.navigator.toLogin()
+                    showLogin()
                 }
             })
             .disposed(by: disposeBag)

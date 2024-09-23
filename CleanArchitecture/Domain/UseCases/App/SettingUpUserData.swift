@@ -11,8 +11,8 @@ import RxSwift
 import RxCocoa
 
 protocol SettingUpUserData {
-    var appGateway: AppGatewayType { get }
-    var userGateway: UserGatewayType { get }
+    var appGateway: AppGatewayProtocol { get }
+    var userGateway: UserGatewayProtocol { get }
 }
 
 extension SettingUpUserData {

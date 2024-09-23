@@ -10,10 +10,19 @@ import ValidatedPropertyKit
 import RxSwift
 import RxCocoa
 import MGArchitecture
+import Factory
+import UIKit
 
-struct LoginViewModel {
-    let navigator: LoginNavigatorType
-    let useCase: LoginUseCaseType
+class LoginViewModel: ShowAutoCloseMessage, LoggingIn {
+    unowned var navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func showLoginSuccessMessage() {
+        showAutoCloseMessage("Login success")
+    }
 }
 
 // MARK: - ViewModel
@@ -50,7 +59,9 @@ extension LoginViewModel: ViewModel {
         
         let usernameValidation = Driver.combineLatest(input.username, input.login)
             .map { $0.0 }
-            .map(useCase.validateUserName(_:))
+            .map { [unowned self] username in
+                validateUserName(username)
+            }
         
         usernameValidation
             .map { $0.message }
@@ -59,7 +70,9 @@ extension LoginViewModel: ViewModel {
   
         let passwordValidation = Driver.combineLatest(input.password, input.login)
             .map { $0.0 }
-            .map(useCase.validatePassword(_:))
+            .map { [unowned self] password in
+                validatePassword(password)
+            }
         
         passwordValidation
             .map { $0.message }
@@ -82,14 +95,15 @@ extension LoginViewModel: ViewModel {
             .withLatestFrom(isLoginEnabled)
             .filter { $0 }
             .withLatestFrom(Driver.combineLatest(input.username, input.password))
-            .flatMapLatest { username, password -> Driver<Void> in
-                self.useCase.login(dto: LoginDto(username: username, password: password))
+            .flatMapLatest { [unowned self] username, password -> Driver<Void> in
+                login(dto: LoginDto(username: username, password: password))
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
             }
-            .do(onNext: navigator.toMain)
-            .drive()
+            .drive(onNext: { [unowned self] in
+                showLoginSuccessMessage()
+            })
             .disposed(by: disposeBag)
         
         return output

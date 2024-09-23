@@ -9,12 +9,13 @@
 import UIKit
 import RxSwift
 import MGArchitecture
+import Factory
 
-protocol RepoGatewayType {
+protocol RepoGatewayProtocol {
     func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>>
 }
 
-struct RepoGateway: RepoGatewayType {
+struct RepoGateway: RepoGatewayProtocol {
     func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>> {
         let (page, perPage, usingCache) = (dto.page, dto.perPage, dto.usingCache)
         
@@ -28,5 +29,13 @@ struct RepoGateway: RepoGatewayType {
             .map { repos in
                 return PagingInfo<Repo>(page: page, items: repos)
             }
+    }
+}
+
+extension Container {
+    var repoGateway: Factory<RepoGatewayProtocol> {
+        Factory(self) {
+            RepoGateway()
+        }
     }
 }

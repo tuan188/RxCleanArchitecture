@@ -8,18 +8,27 @@
 
 import UIKit
 import RxSwift
+import Factory
 
-protocol UserGatewayType {
+protocol UserGatewayProtocol {
     func getUsers() -> Observable<[User]>
     func add(dto: AddUserDto) -> Observable<Void>
 }
 
-struct UserGateway: UserGatewayType {
+struct UserGateway: UserGatewayProtocol {
     func getUsers() -> Observable<[User]> {
         .empty()
     }
     
     func add(dto: AddUserDto) -> Observable<Void> {
-        .empty()
+        Observable.just(())
+    }
+}
+
+extension Container {
+    var userGateway: Factory<UserGatewayProtocol> {
+        Factory(self) {
+            UserGateway()
+        }
     }
 }

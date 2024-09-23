@@ -12,16 +12,42 @@ import RxSwift
 import RxCocoa
 import MGArchitecture
 import Then
+import UIKit
+import Factory
 
 enum EditProductDelegate {
     case updatedProduct(Product)
 }
 
-struct EditProductViewModel {
-    let navigator: EditProductNavigatorType
-    let useCase: EditProductUseCaseType
+class EditProductViewModel: UpdatingProduct, Dismissible {
+    @Injected(\.productGateway)
+    var productGateway: ProductGatewayProtocol
+
     let product: Product
-    let delegate: PublishSubject<EditProductDelegate> // swiftlint:disable:this weak_delegate
+    unowned let delegate: PublishSubject<EditProductDelegate> // swiftlint:disable:this weak_delegate
+    unowned var navigationController: UINavigationController
+    
+    init(product: Product, delegate: PublishSubject<EditProductDelegate>, navigationController: UINavigationController) {
+        self.product = product
+        self.delegate = delegate
+        self.navigationController = navigationController
+    }
+    
+    func validateName(_ name: String) -> ValidationResult {
+        return ProductDto.validateName(name).mapToVoid()
+    }
+    
+    func validatePrice(_ price: String) -> ValidationResult {
+        return ProductDto.validatePriceString(price).mapToVoid()
+    }
+    
+    func update(_ product: ProductDto) -> Observable<Void> {
+        if let error = product.validationError {
+            return Observable.error(error)
+        }
+        
+        return updateProduct(product)
+    }
 }
 
 // MARK: - ViewModel
@@ -61,14 +87,18 @@ extension EditProductViewModel: ViewModel {
         
         let nameValidation = Driver.combineLatest(name, input.update)
             .map { $0.0 }
-            .map(useCase.validateName(_:))
+            .map { [unowned self] name in
+                validateName(name)
+            }
             .do(onNext: { result in
                 output.nameValidation = result
             })
         
         let priceValidation = Driver.combineLatest(price, input.update)
             .map { $0.0 }
-            .map(useCase.validatePrice(_:))
+            .map { [unowned self] price in
+                validatePrice(price)
+            }
             .do(onNext: { result in
                 output.priceValidation = result
             })
@@ -89,28 +119,29 @@ extension EditProductViewModel: ViewModel {
                 name,
                 price
             ))
-            .flatMapLatest { name, price -> Driver<Product> in
+            .flatMapLatest { [unowned self] name, price -> Driver<Product> in
                 let product = self.product.with {
                     $0.name = name
                     $0.price = Double(price) ?? 0.0
                 }
                 
-                return self.useCase.update(product.toDto())
+                return update(product.toDto())
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
                     .map { _ in product }
             }
-            .do(onNext: { product in
-                self.delegate.onNext(EditProductDelegate.updatedProduct(product))
-                self.navigator.dismiss()
+            .do(onNext: { [unowned self] product in
+                delegate.onNext(EditProductDelegate.updatedProduct(product))
+                dismiss()
             })
             .drive()
             .disposed(by: disposeBag)
         
         input.cancel
-            .do(onNext: navigator.dismiss)
-            .drive()
+            .drive(onNext: { [unowned self] in
+                dismiss()
+            })
             .disposed(by: disposeBag)
         
         errorTracker

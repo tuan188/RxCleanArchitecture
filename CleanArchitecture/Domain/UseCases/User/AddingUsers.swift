@@ -24,7 +24,7 @@ struct AddUserDto: Dto {
 }
 
 protocol AddingUsers {
-    var userGatewayType: UserGatewayType { get }
+    var userGatewayType: UserGatewayProtocol { get }
 }
 
 extension AddingUsers {

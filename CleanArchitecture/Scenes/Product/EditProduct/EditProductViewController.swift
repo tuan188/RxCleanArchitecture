@@ -12,6 +12,7 @@ import Dto
 import MGArchitecture
 import RxSwift
 import RxCocoa
+import Factory
 
 final class EditProductViewController: UITableViewController, Bindable {
     
@@ -120,4 +121,20 @@ extension EditProductViewController {
 // MARK: - StoryboardSceneBased
 extension EditProductViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.product
+}
+
+extension Container {
+    func editProductViewController(product: Product,
+                                   delegate: PublishSubject<EditProductDelegate>,
+                                   navigationController: UINavigationController)
+    -> Factory<EditProductViewController> {
+        Factory(self) {
+            let vc = EditProductViewController.instantiate()
+            let vm = EditProductViewModel(product: product,
+                                          delegate: delegate,
+                                          navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

@@ -13,6 +13,7 @@ import RxCocoa
 import MGArchitecture
 import MGLoadMore
 import SDWebImage
+import Factory
 
 final class ReposViewController: UIViewController, Bindable {
     
@@ -130,5 +131,16 @@ extension ReposViewController: UITableViewDataSourcePrefetching {
     
     func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
         
+    }
+}
+
+extension Container {
+    func reposViewController(navigationController: UINavigationController) -> Factory<ReposViewController> {
+        return Factory(self) {
+            let vc = ReposViewController.instantiate()
+            let vm = ReposViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
     }
 }

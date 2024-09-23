@@ -11,12 +11,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SDWebImage
+import Factory
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var assembler: Assembler = DefaultAssembler()
     var disposeBag = DisposeBag()
     
     func applicationDidFinishLaunching(_ application: UIApplication) {
@@ -46,9 +46,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func bindViewModel(window: UIWindow) {
-        let vm: AppViewModel = assembler.resolve(window: window)
+        let vm: AppViewModel = Container.shared.appViewModel(window: window)()
         let input = AppViewModel.Input(load: Driver.just(()))
-        _ = vm.transform(input, disposeBag: disposeBag)
+        vm.transform(input, disposeBag: disposeBag)
     }
     
     func applicationWillTerminate(_ application: UIApplication) {

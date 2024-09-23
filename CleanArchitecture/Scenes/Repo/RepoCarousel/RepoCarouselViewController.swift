@@ -14,6 +14,7 @@ import RxCocoa
 import Reusable
 import Then
 import SDWebImage
+import Factory
 
 final class RepoCarouselViewController: UIViewController, Bindable {
     
@@ -264,4 +265,15 @@ extension RepoCarouselViewController: UICollectionViewDataSourcePrefetching {
 // MARK: - StoryboardSceneBased
 extension RepoCarouselViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.repo
+}
+
+extension Container {
+    func repoCarouselViewController(navigationController: UINavigationController) -> Factory<RepoCarouselViewController> {
+        Factory(self) {
+            let vc = RepoCarouselViewController.instantiate()
+            let vm = RepoCarouselViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

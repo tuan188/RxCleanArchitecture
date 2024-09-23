@@ -9,7 +9,7 @@
 import RxSwift
 
 protocol GettingUsers {
-    var userGatewayType: UserGatewayType { get }
+    var userGatewayType: UserGatewayProtocol { get }
 }
 
 extension GettingUsers {

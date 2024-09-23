@@ -12,11 +12,11 @@ import RxTest
 import RxSwift
 
 final class SettingUpUserDataTests: XCTestCase, SettingUpUserData {
-    var appGateway: AppGatewayType {
+    var appGateway: AppGatewayProtocol {
         return appGatewayMock
     }
     
-    var userGateway: UserGatewayType {
+    var userGateway: UserGatewayProtocol {
         return userGatewayMock
     }
     

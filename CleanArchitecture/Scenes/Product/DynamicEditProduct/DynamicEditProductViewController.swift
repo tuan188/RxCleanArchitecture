@@ -13,6 +13,7 @@ import ValidatedPropertyKit
 import RxSwift
 import RxCocoa
 import MGArchitecture
+import Factory
 
 final class DynamicEditProductViewController: UIViewController, Bindable {
     
@@ -207,4 +208,15 @@ extension DynamicEditProductViewController: UITableViewDataSource {
 // MARK: - StoryboardSceneBased
 extension DynamicEditProductViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.product
+}
+
+extension Container {
+    func dynamicEditProduct(navigationController: UINavigationController, product: Product) -> Factory<DynamicEditProductViewController> {
+        Factory(self) {
+            let vc = DynamicEditProductViewController.instantiate()
+            let vm = DynamicEditProductViewModel(navigationController: navigationController, product: product)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

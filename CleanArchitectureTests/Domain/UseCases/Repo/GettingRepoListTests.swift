@@ -14,7 +14,7 @@ import MGArchitecture
 
 final class GettingRepoListTests: XCTestCase, GettingRepoList {
     
-    var repoGateway: RepoGatewayType {
+    var repoGateway: RepoGatewayProtocol {
         return repoGatewayMock
     }
     

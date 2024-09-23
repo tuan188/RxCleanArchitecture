@@ -11,7 +11,7 @@ import RxSwift
 import MGArchitecture
 
 protocol GettingRepoList {
-    var repoGateway: RepoGatewayType { get }
+    var repoGateway: RepoGatewayProtocol { get }
 }
 
 extension GettingRepoList {

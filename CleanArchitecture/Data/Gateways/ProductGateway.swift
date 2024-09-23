@@ -10,14 +10,15 @@ import UIKit
 import RxSwift
 import MGArchitecture
 import Then
+import Factory
 
-protocol ProductGatewayType {
+protocol ProductGatewayProtocol {
     func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>>
     func deleteProduct(dto: DeleteProductDto) -> Observable<Void>
     func update(_ product: ProductDto) -> Observable<Void>
 }
 
-struct ProductGateway: ProductGatewayType {
+struct ProductGateway: ProductGatewayProtocol {
     func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
         let page = dto.page
         
@@ -50,7 +51,7 @@ struct ProductGateway: ProductGatewayType {
     }
 }
 
-struct LocalAPIProductGateway: ProductGatewayType {
+struct LocalAPIProductGateway: ProductGatewayProtocol {
 
     func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
         return API.shared.getProductList(API.GetProductListInput())
@@ -63,5 +64,13 @@ struct LocalAPIProductGateway: ProductGatewayType {
     
     func update(_ product: ProductDto) -> Observable<Void> {
         return Observable.just(())
+    }
+}
+
+extension Container {
+    var productGateway: Factory<ProductGatewayProtocol> {
+        Factory(self) {
+            ProductGateway()
+        }
     }
 }

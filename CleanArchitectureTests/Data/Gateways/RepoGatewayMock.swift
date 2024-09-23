@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 import MGArchitecture
 
-final class RepoGatewayMock: RepoGatewayType {
+final class RepoGatewayMock: RepoGatewayProtocol {
 
     // MARK: - getRepoList
 

@@ -24,7 +24,7 @@ struct DeleteProductDto: Dto {
 }
 
 protocol DeletingProduct {
-    var productGateway: ProductGatewayType { get }
+    var productGateway: ProductGatewayProtocol { get }
 }
 
 extension DeletingProduct {

@@ -10,10 +10,21 @@ import MGArchitecture
 import RxSwift
 import RxCocoa
 import UIKit
+import Factory
 
-struct ReposViewModel {
-    let navigator: ReposNavigatorType
-    let useCase: ReposUseCaseType
+class ReposViewModel: GettingRepoList, ShowRepoDetail {
+    @Injected(\.repoGateway)
+    var repoGateway: RepoGatewayProtocol
+    
+    unowned var navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func getRepoList(page: Int) -> Observable<PagingInfo<Repo>> {
+        return getRepoList(dto: GetPageDto(page: page, perPage: 10, usingCache: true))
+    }
 }
 
 // MARK: - ViewModel
@@ -37,10 +48,13 @@ extension ReposViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
         
-        let getPageInput = GetPageInput(loadTrigger: input.load,
-                                        reloadTrigger: input.reload,
-                                        loadMoreTrigger: input.loadMore,
-                                        getItems: useCase.getRepoList(page:))
+        let getPageInput = GetPageInput(
+            loadTrigger: input.load,
+            reloadTrigger: input.reload,
+            loadMoreTrigger: input.loadMore,
+            getItems: { [unowned self] page in
+                getRepoList(page: page)
+            })
         
         let getPageResult = getPage(input: getPageInput)
         let (page, pagingError, isLoading, isReloading, isLoadingMore) = getPageResult.destructured
@@ -54,7 +68,9 @@ extension ReposViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectRepo, items: repoList)
-            .drive(onNext: navigator.toRepoDetail)
+            .drive(onNext: { [unowned self] repo in
+                showRepoDetail(repo: repo)
+            })
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)

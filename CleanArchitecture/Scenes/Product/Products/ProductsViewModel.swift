@@ -10,10 +10,52 @@ import RxSwift
 import RxCocoa
 import MGArchitecture
 import UIKit
+import Factory
 
-struct ProductsViewModel {
-    let navigator: ProductsNavigatorType
-    let useCase: ProductsUseCaseType
+class ProductsViewModel: GettingProductList, DeletingProduct, ShowProductDetail, ShowEditProduct {
+    @Injected(\.productGateway)
+    var productGateway: ProductGatewayProtocol
+    
+    unowned var navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
+        let dto = GetPageDto(page: page, perPage: 10, usingCache: true)
+        return getProductList(dto: dto)
+    }
+    
+    func confirmDeleteProduct(_ product: Product) -> Driver<Void> {
+        return Observable<Void>.create({ (observer) -> Disposable in
+            let alert = UIAlertController(
+                title: "Delete product: " + product.name,
+                message: "Are you sure?",
+                preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(
+                title: "Delete",
+                style: .destructive) { _ in
+                    observer.onNext(())
+                    observer.onCompleted()
+            }
+            alert.addAction(okAction)
+            
+            let cancel = UIAlertAction(title: "Cancel",
+                                       style: UIAlertAction.Style.cancel) { (_) in
+                                        observer.onCompleted()
+            }
+            alert.addAction(cancel)
+            
+            self.navigationController.present(alert, animated: true, completion: nil)
+            
+            return Disposables.create {
+                alert.dismiss(animated: true, completion: nil)
+            }
+        })
+        .asDriverOnErrorJustComplete()
+    }
 }
 
 // MARK: - ViewModel
@@ -77,8 +119,8 @@ extension ProductsViewModel: ViewModel {
             loadTrigger: input.load,
             reloadTrigger: input.reload,
             loadMoreTrigger: input.loadMore,
-            getItems: { _, page in
-                return self.useCase.getProductList(page: page)
+            getItems: { [unowned self] _, page in
+                return getProductList(page: page)
             },
             mapper: ProductModel.init(product:)
         )
@@ -103,8 +145,8 @@ extension ProductsViewModel: ViewModel {
         // Select product
         
         select(trigger: input.selectProduct, items: productList)
-            .drive(onNext: { product in
-                self.navigator.toProductDetail(product: product.product)
+            .drive(onNext: { [unowned self] product in
+                showProductDetail(product: product.product)
             })
             .disposed(by: disposeBag)
         
@@ -112,8 +154,8 @@ extension ProductsViewModel: ViewModel {
         
         select(trigger: input.editProduct, items: productList)
             .map { $0.product }
-            .flatMapLatest { product -> Driver<EditProductDelegate> in
-                self.navigator.toEditProduct(product)
+            .flatMapLatest { [unowned self] product -> Driver<EditProductDelegate> in
+                showEditProduct(product)
             }
             .drive(onNext: { delegate in
                 switch delegate {
@@ -143,12 +185,12 @@ extension ProductsViewModel: ViewModel {
         
         select(trigger: input.deleteProduct, items: productList)
             .map { $0.product }
-            .flatMapLatest { product -> Driver<Product> in
-                return self.navigator.confirmDeleteProduct(product)
+            .flatMapLatest { [unowned self] product -> Driver<Product> in
+                confirmDeleteProduct(product)
                     .map { product }
             }
-            .flatMapLatest { product -> Driver<Product> in
-                return self.useCase.deleteProduct(dto: DeleteProductDto(id: product.id))
+            .flatMapLatest { [unowned self] product -> Driver<Product> in
+                deleteProduct(dto: DeleteProductDto(id: product.id))
                     .trackActivity(activityIndicator.loadingIndicator)
                     .trackError(errorTracker)
                     .map { _ in product }

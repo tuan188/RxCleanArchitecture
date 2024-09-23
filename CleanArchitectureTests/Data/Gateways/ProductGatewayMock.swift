@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 import MGArchitecture
 
-final class ProductGatewayMock: ProductGatewayType {
+final class ProductGatewayMock: ProductGatewayProtocol {
 
     // MARK: - getProductList
 

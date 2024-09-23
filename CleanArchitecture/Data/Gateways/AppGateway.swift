@@ -7,18 +7,25 @@
 //
 
 import UIKit
+import Factory
 
-protocol AppGatewayType {
+protocol AppGatewayProtocol {
     func checkFirstRun() -> Bool
     func setFirstRun()
 }
 
-struct AppGateway: AppGatewayType {
+struct AppGateway: AppGatewayProtocol {
     func checkFirstRun() -> Bool {
         return !AppSettings.didInit
     }
     
     func setFirstRun() {
         AppSettings.didInit = true
+    }
+}
+
+extension Container {
+    var appGateway: Factory<AppGatewayProtocol> {
+        Factory(self) { AppGateway() }
     }
 }

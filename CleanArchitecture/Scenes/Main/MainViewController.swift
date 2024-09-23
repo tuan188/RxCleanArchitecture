@@ -12,6 +12,7 @@ import SDWebImage
 import RxSwift
 import RxCocoa
 import MGArchitecture
+import Factory
 
 final class MainViewController: UIViewController, Bindable {
     
@@ -109,4 +110,15 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - StoryboardSceneBased
 extension MainViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.main
+}
+
+extension Container {
+    func mainViewController(navigationController: UINavigationController) -> Factory<MainViewController> {
+        Factory(self) {
+            let vc = MainViewController.instantiate()
+            let vm: MainViewModel = MainViewModel(navigationController: navigationController)
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }

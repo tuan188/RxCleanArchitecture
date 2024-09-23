@@ -9,10 +9,21 @@
 import MGArchitecture
 import RxSwift
 import RxCocoa
+import Factory
+import UIKit
 
-struct AppViewModel {
-    let navigator: AppNavigatorType
-    let useCase: AppUseCaseType
+class AppViewModel: SettingUpUserData, ShowMain {
+    @Injected(\.appGateway)
+    var appGateway: AppGatewayProtocol
+    
+    @Injected(\.userGateway)
+    var userGateway: UserGatewayProtocol
+    
+    var window: UIWindow
+    
+    init(window: UIWindow) {
+        self.window = window
+    }
 }
 
 // MARK: - ViewModel
@@ -21,19 +32,23 @@ extension AppViewModel: ViewModel {
         let load: Driver<Void>
     }
     
-    struct Output {
-        
-    }
-    
-    func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
+    func transform(_ input: Input, disposeBag: DisposeBag) {
         input.load
-            .flatMapLatest {
-                self.useCase.addUserData()
+            .flatMapLatest { [unowned self] in
+                addUserData()
                     .asDriverOnErrorJustComplete()
             }
-            .drive(onNext: self.navigator.toMain)
+            .drive(onNext: { [unowned self] in
+                showMain()
+            })
             .disposed(by: disposeBag)
-        
-        return Output()
+    }
+}
+
+extension Container {
+    func appViewModel(window: UIWindow) -> Factory<AppViewModel> {
+        Factory(self) {
+            AppViewModel(window: window)
+        }
     }
 }

@@ -12,6 +12,7 @@ import MGLoadMore
 import MGArchitecture
 import RxSwift
 import RxCocoa
+import Factory
 
 final class UserListViewController: UIViewController, Bindable {
     
@@ -110,4 +111,15 @@ extension UserListViewController: UITableViewDelegate {
 // MARK: - StoryboardSceneBased
 extension UserListViewController: StoryboardSceneBased {
     static var sceneStoryboard = Storyboards.user
+}
+
+extension Container {
+    func userListViewController() -> Factory<UserListViewController> {
+        Factory(self) {
+            let vc = UserListViewController.instantiate()
+            let vm = UserListViewModel()
+            vc.bindViewModel(to: vm)
+            return vc
+        }
+    }
 }
