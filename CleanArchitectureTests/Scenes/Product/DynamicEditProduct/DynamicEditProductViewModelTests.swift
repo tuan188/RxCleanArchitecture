@@ -9,7 +9,6 @@
 @testable import CleanArchitecture
 import XCTest
 import RxSwift
-import Dto
 import ValidatedPropertyKit
 
 final class DynamicEditProductViewModelTests: XCTestCase {

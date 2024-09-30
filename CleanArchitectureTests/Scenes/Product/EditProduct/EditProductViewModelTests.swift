@@ -10,7 +10,6 @@
 import XCTest
 import RxSwift
 import RxTest
-import Dto
 import ValidatedPropertyKit
 
 final class EditProductViewModelTests: XCTestCase {

@@ -6,7 +6,6 @@
 //  Copyright © 2020 Sun Asterisk. All rights reserved.
 //
 
-import Dto
 import ValidatedPropertyKit
 
 struct LoginDto: Dto {

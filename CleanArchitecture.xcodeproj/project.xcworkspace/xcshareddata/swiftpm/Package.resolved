@@ -1,22 +1,13 @@
 {
-  "originHash" : "6b5c9622c9a618a784fe59e7071377ecb9972412c9924f91817b07cba71a5296",
+  "originHash" : "6811e34f62879fc8c9486ce628ba8a31dd29c8e254fc9634e51b1225092f8975",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "location" : "https://github.com/Alamofire/Alamofire",
       "state" : {
-        "revision" : "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
-        "version" : "5.8.1"
-      }
-    },
-    {
-      "identity" : "dto",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tuan188/Dto",
-      "state" : {
-        "revision" : "4c70b4b9515c687e92c6d6779ed05d0845a57c04",
-        "version" : "0.2.0"
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
       }
     },
     {
@@ -38,39 +29,12 @@
       }
     },
     {
-      "identity" : "mgapiservice",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tuan188/MGAPIService",
-      "state" : {
-        "revision" : "15cdea4840647df4e667c26f80571f0ff0750b49",
-        "version" : "3.0.0"
-      }
-    },
-    {
-      "identity" : "mgarchitecture",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tuan188/MGArchitecture",
-      "state" : {
-        "revision" : "525a3302b4747a6a813bc8fc3f2d5a92ce3c01b1",
-        "version" : "2.0.2"
-      }
-    },
-    {
-      "identity" : "mgloadmore",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tuan188/MGLoadMore",
-      "state" : {
-        "revision" : "959af174dea74d087c2d0a48608f8694c998dc55",
-        "version" : "3.0.2"
-      }
-    },
-    {
       "identity" : "objectmapper",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tristanhimmelman/ObjectMapper.git",
+      "location" : "https://github.com/tristanhimmelman/ObjectMapper",
       "state" : {
-        "revision" : "0b96a734de3ea1c87374ae677064f86adb0716ec",
-        "version" : "4.2.0"
+        "revision" : "6021c6035e83a306047348666f6400dc61445d3b",
+        "version" : "4.4.3"
       }
     },
     {
@@ -103,7 +67,7 @@
     {
       "identity" : "rxalamofire",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/RxSwiftCommunity/RxAlamofire.git",
+      "location" : "https://github.com/RxSwiftCommunity/RxAlamofire",
       "state" : {
         "revision" : "16858a7955ff8bc3caa51212fd7624f168586773",
         "version" : "5.7.1"

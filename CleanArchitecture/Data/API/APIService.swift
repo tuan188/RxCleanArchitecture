@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import MGAPIService
 import RxSwift
 
 final class API: APIBase {

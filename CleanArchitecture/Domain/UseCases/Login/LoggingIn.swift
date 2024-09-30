@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 import ValidatedPropertyKit
-import Dto
 
 protocol LoggingIn {
     

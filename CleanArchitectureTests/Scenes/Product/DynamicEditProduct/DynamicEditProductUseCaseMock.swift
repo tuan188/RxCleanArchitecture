@@ -8,7 +8,6 @@
 
 @testable import CleanArchitecture
 import RxSwift
-import Dto
 
 final class DynamicEditProductUseCaseMock: DynamicEditProductUseCaseType {
     

@@ -8,7 +8,6 @@
 
 import UIKit
 import Reusable
-import Dto
 import ValidatedPropertyKit
 import RxSwift
 import RxCocoa
