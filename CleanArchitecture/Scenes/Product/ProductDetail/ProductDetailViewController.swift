@@ -10,7 +10,6 @@ import UIKit
 import Reusable
 import RxSwift
 import RxCocoa
-import MGArchitecture
 import Factory
 
 final class ProductDetailViewController: UIViewController, Bindable {

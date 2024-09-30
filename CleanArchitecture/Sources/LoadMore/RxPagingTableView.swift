@@ -1,37 +1,45 @@
+//
+//  PagingTableView.swift
+//  MGLoadMore
+//
+//  Created by Tuan Truong on 9/4/20.
+//  Copyright © 2020 Sun Asterisk. All rights reserved.
+//
+
 import UIKit
 import RxCocoa
 import RxSwift
 import ESPullToRefresh
 
-open class PagingCollectionView: UICollectionView {
+class PagingTableView: UITableView {
     private let _refreshControl = UIRefreshControl()
     
     open var isRefreshing: Binder<Bool> {
-        return Binder(self) { collectionView, loading in
-            if collectionView.refreshHeader == nil {
+        return Binder(self) { tableView, loading in
+            if tableView.refreshHeader == nil {
                 if loading {
-                    collectionView._refreshControl.beginRefreshing()
+                    tableView._refreshControl.beginRefreshing()
                 } else {
-                    if collectionView._refreshControl.isRefreshing {
-                        collectionView._refreshControl.endRefreshing()
+                    if tableView._refreshControl.isRefreshing {
+                        tableView._refreshControl.endRefreshing()
                     }
                 }
             } else {
                 if loading {
-                    collectionView.es.startPullToRefresh()
+                    tableView.es.startPullToRefresh()
                 } else {
-                    collectionView.es.stopPullToRefresh()
+                    tableView.es.stopPullToRefresh()
                 }
             }
         }
     }
     
     open var isLoadingMore: Binder<Bool> {
-        return Binder(self) { collectionView, loading in
+        return Binder(self) { tableView, loading in
             if loading {
-                collectionView.es.base.footer?.startRefreshing()
+                tableView.es.base.footer?.startRefreshing()
             } else {
-                collectionView.es.stopLoadingMore()
+                tableView.es.stopLoadingMore()
             }
         }
     }
@@ -51,7 +59,7 @@ open class PagingCollectionView: UICollectionView {
                 }
                 .asDriver(onErrorJustReturn: ())
         )
-         
+        
     }
     
     private var _loadMoreTrigger = PublishSubject<Void>()

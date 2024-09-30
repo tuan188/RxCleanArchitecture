@@ -8,7 +8,6 @@
 
 import RxSwift
 import RxCocoa
-import MGArchitecture
 
 class StaticProductDetailViewModel {
     let product: Product

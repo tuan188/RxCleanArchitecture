@@ -10,8 +10,6 @@ import UIKit
 import Reusable
 import RxSwift
 import RxCocoa
-import MGArchitecture
-import MGLoadMore
 import Factory
 
 final class SectionedProductCollectionViewController: UIViewController, Bindable {

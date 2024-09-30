@@ -8,7 +8,6 @@
 
 import UIKit
 import RxSwift
-import MGArchitecture
 
 protocol GettingProductList {
     var productGateway: ProductGatewayProtocol { get }

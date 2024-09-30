@@ -8,7 +8,6 @@
 
 import UIKit
 import Reusable
-import MGArchitecture
 import RxSwift
 import RxCocoa
 import Factory

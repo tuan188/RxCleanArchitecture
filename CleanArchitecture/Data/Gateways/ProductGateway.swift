@@ -8,7 +8,6 @@
 
 import UIKit
 import RxSwift
-import MGArchitecture
 import Then
 import Factory
 

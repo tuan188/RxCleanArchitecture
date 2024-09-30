@@ -8,7 +8,6 @@
 
 import UIKit
 import RxSwift
-import MGArchitecture
 import Factory
 
 protocol RepoGatewayProtocol {

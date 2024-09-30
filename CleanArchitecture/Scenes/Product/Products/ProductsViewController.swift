@@ -10,8 +10,6 @@ import UIKit
 import Reusable
 import RxSwift
 import RxCocoa
-import MGArchitecture
-import MGLoadMore
 import Factory
 
 final class ProductsViewController: UIViewController, Bindable {
@@ -49,8 +47,9 @@ final class ProductsViewController: UIViewController, Bindable {
             $0.dataSource = self
             $0.estimatedRowHeight = 550
             $0.rowHeight = UITableView.automaticDimension
-            $0.refreshHeader = RefreshHeaderAnimator(frame: .zero)
         }
+        
+        tableView.refreshHeader = RefreshHeaderAnimator(frame: .zero)
         
         view.backgroundColor = ColorCompatibility.systemBackground
     }
@@ -102,6 +101,12 @@ final class ProductsViewController: UIViewController, Bindable {
             .asDriver()
             .drive(tableView.isEmpty)
             .disposed(by: disposeBag)
+    }
+    
+    public var isRefreshing2: Binder<Bool> {
+        return Binder(self) { tableView, loading in
+            
+        }
     }
 
 }

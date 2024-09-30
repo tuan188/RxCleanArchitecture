@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import MGArchitecture
-import MGLoadMore
 import RxSwift
 import RxCocoa
 import Reusable

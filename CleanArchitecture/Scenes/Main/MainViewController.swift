@@ -11,7 +11,6 @@ import Reusable
 import SDWebImage
 import RxSwift
 import RxCocoa
-import MGArchitecture
 import Factory
 
 final class MainViewController: UIViewController, Bindable {

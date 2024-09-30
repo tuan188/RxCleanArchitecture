@@ -1,5 +1,5 @@
 {
-  "originHash" : "6811e34f62879fc8c9486ce628ba8a31dd29c8e254fc9634e51b1225092f8975",
+  "originHash" : "2cf8f793f86d8158da7394bb044efd7814b276d5f87ac452348dd256536b0564",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxAlamofire",
       "state" : {
-        "revision" : "16858a7955ff8bc3caa51212fd7624f168586773",
-        "version" : "5.7.1"
+        "revision" : "9535b58695b91fb67f56d58d6fd0c76462d7743a",
+        "version" : "6.1.2"
       }
     },
     {
@@ -78,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ReactiveX/RxSwift",
       "state" : {
-        "revision" : "c1bd31b397d87a54467af4161dde9d6b27720c19",
-        "version" : "5.1.0"
+        "revision" : "b06a8c8596e4c3e8e7788e08e720e3248563ce6a",
+        "version" : "6.7.1"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImage",
       "state" : {
-        "revision" : "59730af512c06fb569c119d737df4c1c499e001d",
-        "version" : "5.18.10"
+        "revision" : "8a1be70a625683bc04d6903e2935bf23f3c6d609",
+        "version" : "5.19.7"
       }
     },
     {

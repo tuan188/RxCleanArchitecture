@@ -6,7 +6,6 @@
 //  Copyright © 2019 Sun Asterisk. All rights reserved.
 //
 
-import MGArchitecture
 import RxSwift
 import RxCocoa
 import UIKit

@@ -9,7 +9,6 @@
 import ValidatedPropertyKit
 import RxSwift
 import RxCocoa
-import MGArchitecture
 import Then
 import UIKit
 import Factory

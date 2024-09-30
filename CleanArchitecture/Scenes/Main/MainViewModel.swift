@@ -8,7 +8,6 @@
 
 import RxSwift
 import RxCocoa
-import MGArchitecture
 import UIKit
 
 class MainViewModel: ShowLogin,

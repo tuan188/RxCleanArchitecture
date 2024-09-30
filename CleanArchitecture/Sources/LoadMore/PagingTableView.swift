@@ -1,17 +1,9 @@
-//
-//  PagingTableView.swift
-//  MGLoadMore
-//
-//  Created by Tuan Truong on 9/4/20.
-//  Copyright © 2020 Sun Asterisk. All rights reserved.
-//
-
 import UIKit
 import RxCocoa
 import RxSwift
 import ESPullToRefresh
 
-open class PagingTableView: UITableView {
+class PagingTableView: UITableView {
     private let _refreshControl = UIRefreshControl()
     
     open var isRefreshing: Binder<Bool> {

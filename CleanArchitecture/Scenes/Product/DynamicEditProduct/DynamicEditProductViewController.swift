@@ -11,7 +11,6 @@ import Reusable
 import ValidatedPropertyKit
 import RxSwift
 import RxCocoa
-import MGArchitecture
 import Factory
 
 final class DynamicEditProductViewController: UIViewController, Bindable {

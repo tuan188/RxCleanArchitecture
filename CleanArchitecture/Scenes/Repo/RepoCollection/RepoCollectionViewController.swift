@@ -9,8 +9,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import MGArchitecture
-import MGLoadMore
 import Reusable
 import SDWebImage
 import Factory
