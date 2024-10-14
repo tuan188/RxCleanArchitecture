@@ -25,7 +25,7 @@ final class UnitTestViewController: UIViewController {
         view.addSubview(testingLabel)
         
         indicator = UIActivityIndicatorView().then {
-            $0.style = .gray
+            $0.style = .medium
             $0.startAnimating()
         }
         

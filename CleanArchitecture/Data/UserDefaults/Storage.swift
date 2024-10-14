@@ -10,8 +10,8 @@ import Foundation
 
 @propertyWrapper
 struct Storage<T: Codable> {
-    struct Wrapper<T>: Codable where T: Codable {
-        let wrapped: T
+    struct Wrapper<U>: Codable where U: Codable {
+        let wrapped: U
     }
     
     private let key: String
