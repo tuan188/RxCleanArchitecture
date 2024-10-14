@@ -6,34 +6,34 @@
 //  Copyright © 2018 Sun Asterisk. All rights reserved.
 //
 
-import ObjectMapper
 import Then
 
-struct Repo {
-    var id = 0
-    var name = ""
-    var fullname = ""
-    var urlString = ""
-    var starCount = 0
-    var folkCount = 0
-    var avatarURLString = ""
-}
-
-extension Repo: Then, Equatable { }
-
-extension Repo: Mappable {
+struct Owner: Codable {
+    var avatarURLString: String
     
-    init?(map: Map) {
-        self.init()
-    }
-    
-    mutating func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        fullname <- map["full_name"]
-        urlString <- map["html_url"]
-        starCount <- map["stargazers_count"]
-        folkCount <- map["forks"]
-        avatarURLString <- map["owner.avatar_url"]
+    enum CodingKeys: String, CodingKey {
+        case avatarURLString = "avatar_url"
     }
 }
+
+struct Repo: Codable {
+    var id: Int
+    var name: String
+    var fullname: String
+    var urlString: String
+    var starCount: Int
+    var folkCount: Int
+    var owner: Owner
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case fullname = "full_name"
+        case urlString = "html_url"
+        case starCount = "stargazers_count"
+        case folkCount = "forks"
+        case owner
+    }
+}
+
+extension Repo: Then { }

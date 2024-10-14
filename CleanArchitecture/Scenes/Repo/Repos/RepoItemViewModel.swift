@@ -14,6 +14,6 @@ struct RepoItemViewModel {
     
     init(repo: Repo) {
         self.name = repo.name
-        self.url = URL(string: repo.avatarURLString)
+        self.url = URL(string: repo.owner.avatarURLString)
     }
 }

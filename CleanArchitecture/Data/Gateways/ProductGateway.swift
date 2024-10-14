@@ -53,8 +53,9 @@ struct ProductGateway: ProductGatewayProtocol {
 struct LocalAPIProductGateway: ProductGatewayProtocol {
 
     func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
-        return API.shared.getProductList(API.GetProductListInput())
-            .map { PagingInfo(page: 1, items: $0) }
+//        return API.shared.getProductList(API.GetProductListInput())
+//            .map { PagingInfo(page: 1, items: $0) }
+        return Observable.empty()
     }
     
     func deleteProduct(dto: DeleteProductDto) -> Observable<Void> {

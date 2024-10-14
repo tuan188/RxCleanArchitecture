@@ -24,6 +24,6 @@ extension Repo: PageItem {
     }
     
     var imageURL: URL? {
-        return URL(string: self.avatarURLString)
+        return URL(string: self.owner.avatarURLString)
     }
 }

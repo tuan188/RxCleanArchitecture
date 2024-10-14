@@ -9,22 +9,26 @@
 import UIKit
 import RxSwift
 import Factory
+import APIServiceRx
+import APIService
 
 protocol RepoGatewayProtocol {
     func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>>
 }
 
 struct RepoGateway: RepoGatewayProtocol {
+    struct RepoList: Codable {
+        let items: [Repo]
+    }
+    
     func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>> {
-        let (page, perPage, usingCache) = (dto.page, dto.perPage, dto.usingCache)
-        
-        let input = API.GetRepoListInput(page: page, perPage: perPage)
-        input.usingCache = usingCache
-        
-        return API.shared.getRepoList(input)
-            .map { $0.repos }
-            .unwrap()
-            .distinctUntilChanged { $0 == $1 }
+        let (page, perPage) = (dto.page, dto.perPage)
+
+        return APIServices.rxSwift
+            .rx
+            .request(GitEndpoint.repoList(page: page, perPage: perPage))
+            .data(type: RepoList.self)
+            .map { $0.items }
             .map { repos in
                 return PagingInfo<Repo>(page: page, items: repos)
             }

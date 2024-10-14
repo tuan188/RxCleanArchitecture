@@ -1,5 +1,5 @@
 {
-  "originHash" : "2cf8f793f86d8158da7394bb044efd7814b276d5f87ac452348dd256536b0564",
+  "originHash" : "f65c988894bf44cb90e351bba20d7a329aa7ec31dfa34480813bbd3d6f852ebf",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -89,6 +89,15 @@
       "state" : {
         "revision" : "8a1be70a625683bc04d6903e2935bf23f3c6d609",
         "version" : "5.19.7"
+      }
+    },
+    {
+      "identity" : "tech-standard-ios-api",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sun-asterisk/tech-standard-ios-api",
+      "state" : {
+        "revision" : "256c1e4854eac94644f14a2a6d338f86300378c2",
+        "version" : "0.18.0"
       }
     },
     {

@@ -12,6 +12,8 @@ import RxSwift
 import RxCocoa
 import SDWebImage
 import Factory
+import APIService
+import APIServiceRx
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +27,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
+        APIServices.rxSwift.logger = APILoggers.verbose
         
         if NSClassFromString("XCTest") != nil { // test
             window.rootViewController = UnitTestViewController()
