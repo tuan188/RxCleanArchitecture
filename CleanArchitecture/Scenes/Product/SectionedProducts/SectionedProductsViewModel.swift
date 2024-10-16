@@ -140,8 +140,8 @@ extension SectionedProductsViewModel: ViewModel {
             .map { indexPath, productSections -> ProductModel in
                 return productSections[indexPath.section].productList[indexPath.row]
             }
-            .drive(onNext: { [unowned self] product in
-                showStaticProductDetail(product: product.product)
+            .drive(onNext: { product in
+                self.showStaticProductDetail(product: product.product)
             })
             .disposed(by: disposeBag)
         
@@ -154,9 +154,7 @@ extension SectionedProductsViewModel: ViewModel {
             .withLatestFrom(productSections) { indexPath, productSections -> Product in
                 return productSections[indexPath.section].productList[indexPath.row].product
             }
-            .drive(onNext: { [unowned self] product in
-                showDynamicEditProduct(product)
-            })
+            .drive(onNext: showDynamicEditProduct)
             .disposed(by: disposeBag)
         
         input.updatedProduct

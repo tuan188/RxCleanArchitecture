@@ -33,12 +33,12 @@ extension AppViewModel: ViewModel {
     
     func transform(_ input: Input, disposeBag: DisposeBag) {
         input.load
-            .flatMapLatest { [unowned self] in
-                addUserData()
+            .flatMapLatest {
+                self.addUserData()
                     .asDriverOnErrorJustComplete()
             }
-            .drive(onNext: { [unowned self] in
-                showMain()
+            .drive(onNext: {
+                self.showMain()
             })
             .disposed(by: disposeBag)
     }

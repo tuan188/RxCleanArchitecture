@@ -58,23 +58,19 @@ extension LoginViewModel: ViewModel {
         
         let usernameValidation = Driver.combineLatest(input.username, input.login)
             .map { $0.0 }
-            .map { [unowned self] username in
-                validateUserName(username)
-            }
+            .map(validateUserName)
         
         usernameValidation
-            .map { $0.message }
+            .map(\.message)
             .drive(output.$usernameValidationMessage)
             .disposed(by: disposeBag)
   
         let passwordValidation = Driver.combineLatest(input.password, input.login)
             .map { $0.0 }
-            .map { [unowned self] password in
-                validatePassword(password)
-            }
+            .map(validatePassword)
         
         passwordValidation
-            .map { $0.message }
+            .map(\.message)
             .drive(output.$passwordValidationMessage)
             .disposed(by: disposeBag)
         
@@ -94,15 +90,13 @@ extension LoginViewModel: ViewModel {
             .withLatestFrom(isLoginEnabled)
             .filter { $0 }
             .withLatestFrom(Driver.combineLatest(input.username, input.password))
-            .flatMapLatest { [unowned self] username, password -> Driver<Void> in
-                login(dto: LoginDto(username: username, password: password))
+            .flatMapLatest { username, password -> Driver<Void> in
+                self.login(dto: LoginDto(username: username, password: password))
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
             }
-            .drive(onNext: { [unowned self] in
-                showLoginSuccessMessage()
-            })
+            .drive(onNext: showLoginSuccessMessage)
             .disposed(by: disposeBag)
         
         return output

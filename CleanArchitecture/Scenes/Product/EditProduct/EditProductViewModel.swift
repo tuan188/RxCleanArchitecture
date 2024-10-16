@@ -46,6 +46,10 @@ class EditProductViewModel: UpdatingProduct, Dismissible {
         
         return updateProduct(product)
     }
+    
+    deinit {
+        print("EditProductViewModel deinit")
+    }
 }
 
 // MARK: - ViewModel
@@ -84,19 +88,15 @@ extension EditProductViewModel: ViewModel {
         )
         
         let nameValidation = Driver.combineLatest(name, input.update)
-            .map { $0.0 }
-            .map { [unowned self] name in
-                validateName(name)
-            }
+            .map(\.0)
+            .map(validateName)
             .do(onNext: { result in
                 output.nameValidation = result
             })
         
         let priceValidation = Driver.combineLatest(price, input.update)
-            .map { $0.0 }
-            .map { [unowned self] price in
-                validatePrice(price)
-            }
+            .map(\.0)
+            .map(validatePrice)
             .do(onNext: { result in
                 output.priceValidation = result
             })
@@ -117,29 +117,26 @@ extension EditProductViewModel: ViewModel {
                 name,
                 price
             ))
-            .flatMapLatest { [unowned self] name, price -> Driver<Product> in
+            .flatMapLatest { name, price -> Driver<Product> in
                 let product = self.product.with {
                     $0.name = name
                     $0.price = Double(price) ?? 0.0
                 }
                 
-                return update(product.toDto())
+                return self.update(product.toDto())
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
                     .map { _ in product }
             }
-            .do(onNext: { [unowned self] product in
-                delegate.onNext(EditProductDelegate.updatedProduct(product))
-                dismiss()
+            .drive(onNext: { product in
+                self.delegate.onNext(EditProductDelegate.updatedProduct(product))
+                self.dismiss()
             })
-            .drive()
             .disposed(by: disposeBag)
         
         input.cancel
-            .drive(onNext: { [unowned self] in
-                dismiss()
-            })
+            .drive(onNext: dismiss)
             .disposed(by: disposeBag)
         
         errorTracker

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 protocol Dismissible {
     var navigationController: UINavigationController { get }
@@ -15,6 +16,9 @@ protocol Dismissible {
 
 extension Dismissible {
     func dismiss() {
-        navigationController.dismiss(animated: true, completion: nil)
+        let disposable = navigationController.viewControllers.first as? Disposable
+        navigationController.dismiss(animated: true) {
+            disposable?.dispose()
+        }
     }
 }

@@ -40,9 +40,7 @@ extension MainViewModel: ViewModel {
         let output = Output()
         
         input.load
-            .map {
-                self.menuSections()
-            }
+            .map(menuSections)
             .drive(output.$menuSections)
             .disposed(by: disposeBag)
         
@@ -50,24 +48,24 @@ extension MainViewModel: ViewModel {
             .map { indexPath in
                 output.menuSections[indexPath.section].menus[indexPath.row]
             }
-            .drive(onNext: { [unowned self] menu in
+            .drive(onNext: { menu in
                 switch menu {
                 case .products:
-                    showProducts()
+                    self.showProducts()
                 case .sectionedProducts:
-                    showSectionedProducts()
+                    self.showSectionedProducts()
                 case .sectionedProductCollection:
-                    showSectionedProductCollection()
+                    self.showSectionedProductCollection()
                 case .repos:
-                    showRepos()
+                    self.showRepos()
                 case .repoCollection:
-                    showRepoCollection()
+                    self.showRepoCollection()
                 case .repoCarousel:
-                    showRepoCarousel()
+                    self.showRepoCarousel()
                 case .users:
-                    showUsers()
+                    self.showUsers()
                 case .login:
-                    showLogin()
+                    self.showLogin()
                 }
             })
             .disposed(by: disposeBag)

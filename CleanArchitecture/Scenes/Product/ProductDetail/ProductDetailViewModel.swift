@@ -37,7 +37,7 @@ extension ProductDetailViewModel: ViewModel {
         let output = Output()
         
         input.load
-            .map { [unowned self] _ in product }
+            .map { self.product }
             .map { product -> [Cell] in
                 return [
                     Cell.name(product.name),

@@ -67,9 +67,7 @@ extension UserListViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectUser, items: userList)
-            .drive(onNext: { [unowned self] user in
-                showUserDetail(user: user)
-            })
+            .drive(onNext: showUserDetail)
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading),

@@ -144,8 +144,8 @@ extension ProductsViewModel: ViewModel {
         // Select product
         
         select(trigger: input.selectProduct, items: productList)
-            .drive(onNext: { [unowned self] product in
-                showProductDetail(product: product.product)
+            .drive(onNext: { product in
+                self.showProductDetail(product: product.product)
             })
             .disposed(by: disposeBag)
         
@@ -153,8 +153,8 @@ extension ProductsViewModel: ViewModel {
         
         select(trigger: input.editProduct, items: productList)
             .map { $0.product }
-            .flatMapLatest { [unowned self] product -> Driver<EditProductDelegate> in
-                showEditProduct(product)
+            .flatMapLatest { product -> Driver<EditProductDelegate> in
+                self.showEditProduct(product)
             }
             .drive(onNext: { delegate in
                 switch delegate {
@@ -184,12 +184,12 @@ extension ProductsViewModel: ViewModel {
         
         select(trigger: input.deleteProduct, items: productList)
             .map { $0.product }
-            .flatMapLatest { [unowned self] product -> Driver<Product> in
-                confirmDeleteProduct(product)
+            .flatMapLatest { product -> Driver<Product> in
+                self.confirmDeleteProduct(product)
                     .map { product }
             }
-            .flatMapLatest { [unowned self] product -> Driver<Product> in
-                deleteProduct(dto: DeleteProductDto(id: product.id))
+            .flatMapLatest { product -> Driver<Product> in
+                self.deleteProduct(dto: DeleteProductDto(id: product.id))
                     .trackActivity(activityIndicator.loadingIndicator)
                     .trackError(errorTracker)
                     .map { _ in product }

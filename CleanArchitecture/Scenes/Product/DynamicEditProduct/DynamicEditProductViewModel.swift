@@ -108,15 +108,15 @@ extension DynamicEditProductViewModel: ViewModel {
             .startWith(String(self.product.price))
         
         let nameValidation = Driver.combineLatest(name, input.update)
-            .map { $0.0 }
-            .map { [unowned self] name in validateName(name) }
+            .map(\.0)
+            .map(validateName)
             .do(onNext: { result in
-                return output.nameValidation = result
+                output.nameValidation = result
             })
         
         let priceValidation = Driver.combineLatest(price, input.update)
-            .map { $0.0 }
-            .map { [unowned self] price in validatePrice(price) }
+            .map(\.0)
+            .map(validatePrice)
             .do(onNext: { result in
                 output.priceValidation = result
             })
@@ -157,23 +157,23 @@ extension DynamicEditProductViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         input.cancel
-            .drive(onNext: { [unowned self] in dismiss() })
+            .drive(onNext: dismiss)
             .disposed(by: disposeBag)
         
         input.update
             .withLatestFrom(isUpdateEnabled)
             .filter { $0 }
             .withLatestFrom(product)
-            .flatMapLatest { [unowned self] product in
-                update(product.toDto())
+            .flatMapLatest { product in
+                self.update(product.toDto())
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
                     .map { _ in product }
             }
-            .drive(onNext: { [unowned self] product in
-                notifyUpdated(product)
-                dismiss()
+            .drive(onNext: { product in
+                self.notifyUpdated(product)
+                self.dismiss()
             })
             .disposed(by: disposeBag)
         

@@ -251,6 +251,7 @@
 		1B885D2522A9F14E002F4F10 /* ServiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B885D2422A9F14E002F4F10 /* ServiceHelper.swift */; };
 		1B885D2A22A9F263002F4F10 /* repo.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B885D2922A9F263002F4F10 /* repo.json */; };
 		670EA6AD2CBF662500AC938E /* ValidatedPropertyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 670EA6AC2CBF662500AC938E /* ValidatedPropertyKit */; };
+		670EA6AF2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */; };
 		676BF17D2CBE0C2B0056CEEE /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676BF17C2CBE0C2B0056CEEE /* ValidationError.swift */; };
 /* End PBXBuildFile section */
 
@@ -502,6 +503,7 @@
 		1B885D2422A9F14E002F4F10 /* ServiceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHelper.swift; sourceTree = "<group>"; };
 		1B885D2722A9F247002F4F10 /* API+RepoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+RepoTest.swift"; sourceTree = "<group>"; };
 		1B885D2922A9F263002F4F10 /* repo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = repo.json; sourceTree = "<group>"; };
+		670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedSequenceConvertibleType+.swift"; sourceTree = "<group>"; };
 		676BF17C2CBE0C2B0056CEEE /* ValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1173,6 +1175,7 @@
 				17B0C9D42CAA8C600039B8C0 /* ObservableType+.swift */,
 				17B0C9D52CAA8C600039B8C0 /* ObservableType+SyncSequence.swift */,
 				17B0C9D62CAA8C600039B8C0 /* Optional+.swift */,
+				670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1722,6 +1725,7 @@
 				1721727820E49245007D33A5 /* ReposViewController.swift in Sources */,
 				1793D9DB258B57A20040E806 /* PageSectionViewModel.swift in Sources */,
 				17EC214C20DCDEE700F793FE /* ProductPriceCell.swift in Sources */,
+				670EA6AF2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift in Sources */,
 				17E952542CA15FFA00BD57D4 /* ShowLogin.swift in Sources */,
 				17800302213FBA8200D20209 /* UITableView+.swift in Sources */,
 				17EF7B2C21479A3A005DFB79 /* Notifications.swift in Sources */,
@@ -2019,7 +2023,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CleanArchitectureTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2041,7 +2045,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CleanArchitectureTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -67,9 +67,7 @@ extension ReposViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectRepo, items: repoList)
-            .drive(onNext: { [unowned self] repo in
-                showRepoDetail(repo: repo)
-            })
+            .drive(onNext: showRepoDetail)
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)

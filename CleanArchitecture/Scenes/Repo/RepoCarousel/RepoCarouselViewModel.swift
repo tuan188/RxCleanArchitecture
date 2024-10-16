@@ -95,9 +95,7 @@ extension RepoCarouselViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectRepo, items: repoList)
-            .drive(onNext: { [unowned self] pageItem in
-                showPageItemDetail(pageItem)
-            })
+            .drive(onNext: showPageItemDetail)
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)
