@@ -4,27 +4,27 @@ public protocol Dto {
     var validatedProperties: [ValidatedProperty] { get }
 }
 
-extension Dto {
-    public var isValid: Bool {
+public extension Dto {
+    var isValid: Bool {
         return validatedProperties.allSatisfy { $0.isValid }
     }
     
-    public var validationErrors: [ValidationError] {
-        return validatedProperties.compactMap { $0.validationError }
+    var validationErrors: [ValidationError] {
+        return validatedProperties.compactMap { $0.error }
     }
     
-    public var validationErrorMessages: [String] {
+    var validationErrorMessages: [String] {
         return validationErrors.map { $0.description }
     }
     
-    public var validationError: ValidationError? {
+    var validationError: ValidationError? {
         if isValid { return nil }
-        return ValidationError(messages: validationErrorMessages)
+        return ValidationError(descriptions: validationErrorMessages)
     }
 }
 
-extension Dto {
-    public var validatedProperties: [ValidatedProperty] {
+public extension Dto {
+    var validatedProperties: [ValidatedProperty] {
         return []
     }
 }

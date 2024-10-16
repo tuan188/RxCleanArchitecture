@@ -12,13 +12,12 @@ import Then
 struct ProductDto: Dto {
     var id = 0
     
-    @Validated(.minLength(min: 5, message: "Product name must be at least 5 characters."))
-    var name: String? = ""
+    @Validated(.range(5...), errorMessage: "Name must be at least 5 characters long.")
+    var name: String = ""
     
-    @Validated(.greater(0, message: "Product price must be greater than 0."))
-    var price: Double? = 0.0
+    @Validated(.greater(0), errorMessage: "Price must be greater than 0.")
+    var price: Double = 0.0
     
-    @Validated(.isNumber(message: "Please enter a number"))
     var priceString: String? = ""
     
     var validatedProperties: [ValidatedProperty] {
@@ -29,27 +28,18 @@ struct ProductDto: Dto {
 extension ProductDto: Then { }
 
 extension ProductDto {
-    init(id: Int, name: String, price: Double) {
-        self.id = id
-        self.name = name
-        self.price = price
+    static func validateName(_ name: String) -> ValidationResult {
+        return ProductDto(name: name)._name.result
     }
     
-    static func validateName(_ name: String) -> Result<String, ValidationError> {
-        return ProductDto()._name.isValid(value: name)
-    }
-    
-    static func validatePrice(_ price: Double) -> Result<Double, ValidationError> {
-        return ProductDto()._price.isValid(value: price)
-    }
-    
-    static func validatePriceString(_ priceString: String) -> Result<String, ValidationError> {
-        return ProductDto()._priceString.isValid(value: priceString)
+    static func validatePrice(_ price: Double) -> ValidationResult {
+        ProductDto(price: price)._price.result
     }
 }
 
 extension Product {
     func toDto() -> ProductDto {
-        return ProductDto(id: self.id, name: self.name, price: self.price)
+        let dto = ProductDto(id: self.id, name: self.name, price: self.price)
+        return dto
     }
 }

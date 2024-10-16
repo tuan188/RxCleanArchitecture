@@ -9,10 +9,10 @@
 import ValidatedPropertyKit
 
 struct LoginDto: Dto {
-    @Validated(.nonEmpty(message: "Please enter user name"))
+    @Validated(!.isEmpty)
     var username: String? = ""
     
-    @Validated(.nonEmpty(message: "Please enter password"))
+    @Validated(!.isEmpty)
     var password: String? = ""
     
     var validatedProperties: [ValidatedProperty] {
@@ -26,11 +26,11 @@ extension LoginDto {
         self.password = password
     }
     
-    static func validateUserName(_ username: String) -> Result<String, ValidationError> {
-        LoginDto()._username.isValid(value: username)
+    static func validateUserName(_ username: String) -> ValidationResult {
+        LoginDto(username: username)._username.result
     }
     
-    static func validatePassword(_ password: String) -> Result<String, ValidationError> {
-        LoginDto()._password.isValid(value: password)
+    static func validatePassword(_ password: String) -> ValidationResult {
+        LoginDto(password: password)._password.result
     }
 }

@@ -10,7 +10,7 @@ import RxSwift
 import ValidatedPropertyKit
 
 struct AddUserDto: Dto {
-    @Validated(Validation.nonEmpty)
+    @Validated(!.isEmpty)
     var users: [User]?
     
     var validatedProperties: [ValidatedProperty] {

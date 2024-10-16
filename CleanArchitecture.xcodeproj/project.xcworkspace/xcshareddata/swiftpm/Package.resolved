@@ -1,5 +1,5 @@
 {
-  "originHash" : "f65c988894bf44cb90e351bba20d7a329aa7ec31dfa34480813bbd3d6f852ebf",
+  "originHash" : "f3283e96e3563460a2c9e3ec9f298af5d6a60d565a10cf448860b66693d4cf59",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -112,10 +112,10 @@
     {
       "identity" : "validatedpropertykit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SvenTiigi/ValidatedPropertyKit",
+      "location" : "https://github.com/tuan188/ValidatedPropertyKit",
       "state" : {
-        "revision" : "760c3c708e88c5e3c113e3a4dc26324ebaf351f7",
-        "version" : "0.0.4"
+        "revision" : "6419cce6527a9e0f7c6a7c2e8767a9da32b7e1bb",
+        "version" : "0.0.7"
       }
     }
   ],

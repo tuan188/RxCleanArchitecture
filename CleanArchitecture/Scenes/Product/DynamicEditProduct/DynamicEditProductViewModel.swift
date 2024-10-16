@@ -24,11 +24,11 @@ class DynamicEditProductViewModel: UpdatingProduct, Dismissible {
     }
     
     func validateName(_ name: String) -> ValidationResult {
-        return ProductDto.validateName(name).mapToVoid()
+        return ProductDto.validateName(name)
     }
     
     func validatePrice(_ price: String) -> ValidationResult {
-        return ProductDto.validatePriceString(price).mapToVoid()
+        return ProductDto.validatePrice(Double(price) ?? 0.0)
     }
     
     func update(_ product: ProductDto) -> Observable<Void> {
