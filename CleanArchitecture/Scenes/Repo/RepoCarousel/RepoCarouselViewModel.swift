@@ -59,7 +59,7 @@ extension RepoCarouselViewModel: ViewModel {
         let getListResult = getList(input: getListInput)
         let (repoList, error, isLoading, isReloading) = getListResult.destructured
             
-        repoList
+        let sections = repoList
             .map { repos -> [PageSectionViewModel] in
                 if repos.count == 20 {
                     return [
@@ -91,10 +91,14 @@ extension RepoCarouselViewModel: ViewModel {
                     PageSectionViewModel(index: 0, type: .card, items: repos.map(PageItemViewModel.init))
                 ]
             }
-            .drive(output.$sections)
+        
+        sections.drive(output.$sections)
             .disposed(by: disposeBag)
-
-        select(trigger: input.selectRepo, items: repoList)
+        
+        input.selectRepo
+            .withLatestFrom(sections) { indexPath, sections in
+                sections[indexPath.section].items[indexPath.row].pageItem
+            }
             .drive(onNext: showPageItemDetail)
             .disposed(by: disposeBag)
         

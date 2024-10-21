@@ -24,6 +24,7 @@ final class RepoCarouselViewController: UIViewController, Bindable {
     var viewModel: RepoCarouselViewModel!
     var disposeBag = DisposeBag()
     
+    private var selectRepoTrigger = PublishSubject<IndexPath>()
     private var sections = [PageSectionViewModel]()
     private var storedOffsets = [Int: CGFloat]()
     
@@ -78,7 +79,7 @@ final class RepoCarouselViewController: UIViewController, Bindable {
         let input = RepoCarouselViewModel.Input(
             load: Driver.just(()),
             reload: collectionView.refreshTrigger,
-            selectRepo: collectionView.rx.itemSelected.asDriver()
+            selectRepo: selectRepoTrigger.asDriverOnErrorJustComplete()
         )
         
         let output = viewModel.transform(input, disposeBag: disposeBag)
@@ -231,6 +232,18 @@ extension RepoCarouselViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - UICollectionViewDelegate
 extension RepoCarouselViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedIndexPath: IndexPath
+        
+        if collectionView === self.collectionView {
+            selectedIndexPath = indexPath
+        } else {
+            selectedIndexPath = IndexPath(row: indexPath.row, section: collectionView.tag)
+        }
+        
+        selectRepoTrigger.onNext(selectedIndexPath)
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
