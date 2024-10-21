@@ -1,13 +1,13 @@
 {
-  "originHash" : "f3283e96e3563460a2c9e3ec9f298af5d6a60d565a10cf448860b66693d4cf59",
+  "originHash" : "97dc21f3c634a10a4cae7a5aebe88b3960a0f34822b7dad40d6171c84987587d",
   "pins" : [
     {
-      "identity" : "alamofire",
+      "identity" : "corestore",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire",
+      "location" : "https://github.com/JohnEstropia/CoreStore",
       "state" : {
-        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
-        "version" : "5.9.1"
+        "revision" : "4b6d9a54e75d2c9fd2c3c768f7d4aa3175c09133",
+        "version" : "9.2.0"
       }
     },
     {
@@ -29,24 +29,6 @@
       }
     },
     {
-      "identity" : "objectmapper",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tristanhimmelman/ObjectMapper",
-      "state" : {
-        "revision" : "6021c6035e83a306047348666f6400dc61445d3b",
-        "version" : "4.4.3"
-      }
-    },
-    {
-      "identity" : "ohhttpstubs",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AliSoftware/OHHTTPStubs.git",
-      "state" : {
-        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
-        "version" : "9.1.0"
-      }
-    },
-    {
       "identity" : "pull-to-refresh",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/eggswift/pull-to-refresh",
@@ -62,15 +44,6 @@
       "state" : {
         "revision" : "18674709421360e210c2ecd4e8e08b217d4ea61d",
         "version" : "4.1.2"
-      }
-    },
-    {
-      "identity" : "rxalamofire",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/RxSwiftCommunity/RxAlamofire",
-      "state" : {
-        "revision" : "9535b58695b91fb67f56d58d6fd0c76462d7743a",
-        "version" : "6.1.2"
       }
     },
     {

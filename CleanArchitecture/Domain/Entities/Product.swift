@@ -6,7 +6,6 @@
 //  Copyright © 2018 Sun Asterisk. All rights reserved.
 //
 
-import ObjectMapper
 import Then
 
 struct Product {
@@ -16,15 +15,3 @@ struct Product {
 }
 
 extension Product: Then, Equatable { }
-
-extension Product: Mappable {
-    init?(map: Map) {
-        self.init()
-    }
-    
-    mutating func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        price <- map["price"]
-    }
-}

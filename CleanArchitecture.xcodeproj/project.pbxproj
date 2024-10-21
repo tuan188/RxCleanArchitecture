@@ -154,8 +154,6 @@
 		17B0C9AF2CAA84C80039B8C0 /* ValidatedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9AE2CAA84C80039B8C0 /* ValidatedProperty.swift */; };
 		17B0C9B02CAA84C80039B8C0 /* Result+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9AD2CAA84C80039B8C0 /* Result+.swift */; };
 		17B0C9B12CAA84C80039B8C0 /* Dto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9AC2CAA84C80039B8C0 /* Dto.swift */; };
-		17B0C9C72CAA879C0039B8C0 /* ObjectMapper in Frameworks */ = {isa = PBXBuildFile; productRef = 17B0C9C62CAA879C0039B8C0 /* ObjectMapper */; };
-		17B0C9D22CAA8BDD0039B8C0 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 17B0C9D12CAA8BDD0039B8C0 /* Alamofire */; };
 		17B0C9E82CAA8C600039B8C0 /* ViewModel+GetPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9E62CAA8C600039B8C0 /* ViewModel+GetPage.swift */; };
 		17B0C9E92CAA8C600039B8C0 /* ErrorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9DE2CAA8C600039B8C0 /* ErrorTracker.swift */; };
 		17B0C9EA2CAA8C600039B8C0 /* MultiActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9DF2CAA8C600039B8C0 /* MultiActivityIndicator.swift */; };
@@ -178,7 +176,6 @@
 		17B0CA002CAA8CCB0039B8C0 /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9FD2CAA8CCB0039B8C0 /* RefreshHeaderAnimator.swift */; };
 		17B0CA012CAA8CCB0039B8C0 /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B0C9FC2CAA8CCB0039B8C0 /* RefreshFooterAnimator.swift */; };
 		17B0CA042CAA8D2F0039B8C0 /* ESPullToRefresh in Frameworks */ = {isa = PBXBuildFile; productRef = 17B0CA032CAA8D2F0039B8C0 /* ESPullToRefresh */; };
-		17B0CA072CAA8E780039B8C0 /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 17B0CA062CAA8E780039B8C0 /* RxAlamofire */; };
 		17B3CC20258C6270004506AA /* CardSectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B3CC1F258C6270004506AA /* CardSectionLayout.swift */; };
 		17B3CC27258C6299004506AA /* CardPageItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B3CC25258C6299004506AA /* CardPageItemCell.swift */; };
 		17B3CC28258C6299004506AA /* CardPageItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 17B3CC26258C6299004506AA /* CardPageItemCell.xib */; };
@@ -253,6 +250,7 @@
 		670EA6AD2CBF662500AC938E /* ValidatedPropertyKit in Frameworks */ = {isa = PBXBuildFile; productRef = 670EA6AC2CBF662500AC938E /* ValidatedPropertyKit */; };
 		670EA6AF2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */; };
 		676BF17D2CBE0C2B0056CEEE /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676BF17C2CBE0C2B0056CEEE /* ValidationError.swift */; };
+		67EEAD5E2CC6041A00D72042 /* CoreStore in Frameworks */ = {isa = PBXBuildFile; productRef = 67EEAD5D2CC6041A00D72042 /* CoreStore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -516,13 +514,11 @@
 				17E7CB4F2B55053800AAB394 /* SDWebImage in Frameworks */,
 				17B0CA042CAA8D2F0039B8C0 /* ESPullToRefresh in Frameworks */,
 				175A6FF52CAA9EF900FE3624 /* RxCocoa in Frameworks */,
-				17B0CA072CAA8E780039B8C0 /* RxAlamofire in Frameworks */,
 				17E7CB582B5505E300AAB394 /* MBProgressHUD in Frameworks */,
 				17F53B8B2CBCD6050063FE56 /* APIServiceRx in Frameworks */,
 				175A6FF72CAA9EF900FE3624 /* RxSwift in Frameworks */,
-				17B0C9C72CAA879C0039B8C0 /* ObjectMapper in Frameworks */,
 				17E7CB522B55057700AAB394 /* Reusable in Frameworks */,
-				17B0C9D22CAA8BDD0039B8C0 /* Alamofire in Frameworks */,
+				67EEAD5E2CC6041A00D72042 /* CoreStore in Frameworks */,
 				17E7CB552B5505AF00AAB394 /* Then in Frameworks */,
 				17E9523D2CA141AF00BD57D4 /* Factory in Frameworks */,
 			);
@@ -1454,14 +1450,12 @@
 				17E7CB542B5505AF00AAB394 /* Then */,
 				17E7CB572B5505E300AAB394 /* MBProgressHUD */,
 				17E9523C2CA141AF00BD57D4 /* Factory */,
-				17B0C9C62CAA879C0039B8C0 /* ObjectMapper */,
-				17B0C9D12CAA8BDD0039B8C0 /* Alamofire */,
 				17B0CA032CAA8D2F0039B8C0 /* ESPullToRefresh */,
-				17B0CA062CAA8E780039B8C0 /* RxAlamofire */,
 				175A6FF42CAA9EF900FE3624 /* RxCocoa */,
 				175A6FF62CAA9EF900FE3624 /* RxSwift */,
 				17F53B8A2CBCD6050063FE56 /* APIServiceRx */,
 				670EA6AC2CBF662500AC938E /* ValidatedPropertyKit */,
+				67EEAD5D2CC6041A00D72042 /* CoreStore */,
 			);
 			productName = CleanArchitecture;
 			productReference = 172DC22520C4DDF9009FC881 /* CleanArchitecture.app */;
@@ -1526,13 +1520,11 @@
 				17E7CB532B5505AF00AAB394 /* XCRemoteSwiftPackageReference "Then" */,
 				17E7CB562B5505E300AAB394 /* XCRemoteSwiftPackageReference "MBProgressHUD" */,
 				17E9523B2CA141AF00BD57D4 /* XCRemoteSwiftPackageReference "Factory" */,
-				17B0C9C52CAA879C0039B8C0 /* XCRemoteSwiftPackageReference "ObjectMapper" */,
-				17B0C9D02CAA8BDD0039B8C0 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				17B0CA022CAA8D2F0039B8C0 /* XCRemoteSwiftPackageReference "pull-to-refresh" */,
-				17B0CA052CAA8E780039B8C0 /* XCRemoteSwiftPackageReference "RxAlamofire" */,
 				175A6FF32CAA9EF900FE3624 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				17F53B892CBCD6050063FE56 /* XCRemoteSwiftPackageReference "tech-standard-ios-api" */,
 				670EA6AB2CBF662500AC938E /* XCRemoteSwiftPackageReference "ValidatedPropertyKit" */,
+				67EEAD5C2CC6041A00D72042 /* XCRemoteSwiftPackageReference "CoreStore" */,
 			);
 			productRefGroup = 172DC22620C4DDF9009FC881 /* Products */;
 			projectDirPath = "";
@@ -2100,36 +2092,12 @@
 				minimumVersion = 6.7.1;
 			};
 		};
-		17B0C9C52CAA879C0039B8C0 /* XCRemoteSwiftPackageReference "ObjectMapper" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tristanhimmelman/ObjectMapper";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.3;
-			};
-		};
-		17B0C9D02CAA8BDD0039B8C0 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.9.1;
-			};
-		};
 		17B0CA022CAA8D2F0039B8C0 /* XCRemoteSwiftPackageReference "pull-to-refresh" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/eggswift/pull-to-refresh";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.9.3;
-			};
-		};
-		17B0CA052CAA8E780039B8C0 /* XCRemoteSwiftPackageReference "RxAlamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxAlamofire";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.1.2;
 			};
 		};
 		17E7CB4D2B55053800AAB394 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
@@ -2188,6 +2156,14 @@
 				minimumVersion = 0.0.7;
 			};
 		};
+		67EEAD5C2CC6041A00D72042 /* XCRemoteSwiftPackageReference "CoreStore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnEstropia/CoreStore";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2201,25 +2177,10 @@
 			package = 175A6FF32CAA9EF900FE3624 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		17B0C9C62CAA879C0039B8C0 /* ObjectMapper */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 17B0C9C52CAA879C0039B8C0 /* XCRemoteSwiftPackageReference "ObjectMapper" */;
-			productName = ObjectMapper;
-		};
-		17B0C9D12CAA8BDD0039B8C0 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 17B0C9D02CAA8BDD0039B8C0 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
 		17B0CA032CAA8D2F0039B8C0 /* ESPullToRefresh */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 17B0CA022CAA8D2F0039B8C0 /* XCRemoteSwiftPackageReference "pull-to-refresh" */;
 			productName = ESPullToRefresh;
-		};
-		17B0CA062CAA8E780039B8C0 /* RxAlamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 17B0CA052CAA8E780039B8C0 /* XCRemoteSwiftPackageReference "RxAlamofire" */;
-			productName = RxAlamofire;
 		};
 		17E7CB4E2B55053800AAB394 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2255,6 +2216,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 670EA6AB2CBF662500AC938E /* XCRemoteSwiftPackageReference "ValidatedPropertyKit" */;
 			productName = ValidatedPropertyKit;
+		};
+		67EEAD5D2CC6041A00D72042 /* CoreStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 67EEAD5C2CC6041A00D72042 /* XCRemoteSwiftPackageReference "CoreStore" */;
+			productName = CoreStore;
 		};
 /* End XCSwiftPackageProductDependency section */
 
