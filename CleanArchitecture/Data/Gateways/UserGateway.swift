@@ -9,19 +9,28 @@
 import UIKit
 import RxSwift
 import Factory
+import CoreStore
 
 protocol UserGatewayProtocol {
     func getUsers() -> Observable<[User]>
     func add(dto: AddUserDto) -> Observable<Void>
 }
 
-struct UserGateway: UserGatewayProtocol {
+class UserGateway: UserGatewayProtocol, CoreDataRepository {
+    typealias Model = User
+    typealias Entity = CDUser
+    let dataStack: CoreStore.DataStack
+    
+    init(dataStack: CoreStore.DataStack = CoreStoreDefaults.dataStack) {
+        self.dataStack = dataStack
+    }
+
     func getUsers() -> Observable<[User]> {
-        .empty()
+        fetchAll()
     }
     
     func add(dto: AddUserDto) -> Observable<Void> {
-        Observable.just(())
+        return create(objects: dto.users)
     }
 }
 

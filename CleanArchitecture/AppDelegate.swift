@@ -14,6 +14,7 @@ import SDWebImage
 import Factory
 import APIService
 import APIServiceRx
+import CoreStore
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,8 +45,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setupCoreData() {
-//        MagicalRecord.setupAutoMigratingCoreDataStack()
-//        MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.error)
+        CoreStoreDefaults.dataStack = DataStack(
+            xcodeModelName: "Model",
+            bundle: Bundle.main
+        )
+        
+        do {
+            try CoreStoreDefaults.dataStack.addStorageAndWait(
+                SQLiteStore(
+                    fileName: "Model.sqlite",
+                    localStorageOptions: .allowSynchronousLightweightMigration
+                )
+            )
+        } catch {
+            print(error)
+        }
     }
 
     private func bindViewModel(window: UIWindow) {
@@ -55,7 +69,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-//        MagicalRecord.cleanUp()
+
     }
 }
 

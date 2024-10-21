@@ -33,15 +33,4 @@ struct User {
     var birthday = Date()
 }
 
-//// MARK: - CoreDataModel
-//extension User: CoreDataModel {
-//    static var primaryKey: String {
-//        return "id"
-//    }
-//    
-//    var modelID: String {
-//        return id
-//    }
-//}
-
 extension User: Then { }

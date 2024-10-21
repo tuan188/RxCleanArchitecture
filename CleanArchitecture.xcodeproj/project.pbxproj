@@ -251,6 +251,8 @@
 		670EA6AF2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */; };
 		676BF17D2CBE0C2B0056CEEE /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676BF17C2CBE0C2B0056CEEE /* ValidationError.swift */; };
 		67EEAD5E2CC6041A00D72042 /* CoreStore in Frameworks */ = {isa = PBXBuildFile; productRef = 67EEAD5D2CC6041A00D72042 /* CoreStore */; };
+		67EEAD602CC6050900D72042 /* CoreDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EEAD5F2CC6050900D72042 /* CoreDataRepository.swift */; };
+		67EEAD622CC60D4D00D72042 /* User+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EEAD612CC60D4D00D72042 /* User+CoreData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -503,6 +505,8 @@
 		1B885D2922A9F263002F4F10 /* repo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = repo.json; sourceTree = "<group>"; };
 		670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedSequenceConvertibleType+.swift"; sourceTree = "<group>"; };
 		676BF17C2CBE0C2B0056CEEE /* ValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
+		67EEAD5F2CC6050900D72042 /* CoreDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepository.swift; sourceTree = "<group>"; };
+		67EEAD612CC60D4D00D72042 /* User+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreData.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1063,6 +1067,7 @@
 			isa = PBXGroup;
 			children = (
 				17CDA62D21EC2DBC0001FE4A /* Model.xcdatamodeld */,
+				67EEAD612CC60D4D00D72042 /* User+CoreData.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1370,6 +1375,7 @@
 		17E952412CA15B3600BD57D4 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				67EEAD632CC64CD500D72042 /* CoreDataRepository */,
 				17B0C9F92CAA8CB80039B8C0 /* LoadMore */,
 				17B0C9AB2CAA84B30039B8C0 /* DTO */,
 				17E952422CA15B4B00BD57D4 /* CleanArchitecture */,
@@ -1425,6 +1431,14 @@
 				1B885D2722A9F247002F4F10 /* API+RepoTest.swift */,
 			);
 			path = "API+Repo";
+			sourceTree = "<group>";
+		};
+		67EEAD632CC64CD500D72042 /* CoreDataRepository */ = {
+			isa = PBXGroup;
+			children = (
+				67EEAD5F2CC6050900D72042 /* CoreDataRepository.swift */,
+			);
+			path = CoreDataRepository;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1688,6 +1702,7 @@
 				172DC2BA20C62C64009FC881 /* UIViewController+.swift in Sources */,
 				17800304213FBE6C00D20209 /* UICollectionView+.swift in Sources */,
 				172DC27F20C53DB1009FC881 /* MainViewController.swift in Sources */,
+				67EEAD622CC60D4D00D72042 /* User+CoreData.swift in Sources */,
 				17E952522CA15FC900BD57D4 /* ShowUsers.swift in Sources */,
 				178F59482593163F000DC95D /* CarouselPageItemCell.swift in Sources */,
 				17B0C9AF2CAA84C80039B8C0 /* ValidatedProperty.swift in Sources */,
@@ -1736,6 +1751,7 @@
 				17B0C9F02CAA8C600039B8C0 /* UIViewController+Debug.swift in Sources */,
 				17B0C9F12CAA8C600039B8C0 /* ViewModel+.swift in Sources */,
 				17B0C9F22CAA8C600039B8C0 /* Optional+.swift in Sources */,
+				67EEAD602CC6050900D72042 /* CoreDataRepository.swift in Sources */,
 				17B0C9F32CAA8C600039B8C0 /* Property.swift in Sources */,
 				17B0C9F42CAA8C600039B8C0 /* Bindable.swift in Sources */,
 				17B0C9F52CAA8C600039B8C0 /* ScreenLoadingType.swift in Sources */,
