@@ -26,6 +26,10 @@ class ProductsViewModel: GettingProductList, DeletingProduct, ShowProductDetail,
         return getProductList(dto: dto)
     }
     
+    func vm_deleteProduct(dto: DeleteProductDto) -> Observable<Void> {
+        deleteProduct(dto: dto)
+    }
+    
     func confirmDeleteProduct(_ product: Product) -> Driver<Void> {
         return Observable<Void>.create({ (observer) -> Disposable in
             let alert = UIAlertController(
@@ -54,6 +58,14 @@ class ProductsViewModel: GettingProductList, DeletingProduct, ShowProductDetail,
             }
         })
         .asDriverOnErrorJustComplete()
+    }
+    
+    func vm_showProductDetail(product: Product) {
+        showProductDetail(product: product)
+    }
+    
+    func vm_showEditProduct(_ product: Product) -> Driver<EditProductDelegate> {
+        showEditProduct(product)
     }
 }
 
@@ -145,7 +157,7 @@ extension ProductsViewModel: ViewModel {
         
         select(trigger: input.selectProduct, items: productList)
             .drive(onNext: { product in
-                self.showProductDetail(product: product.product)
+                self.vm_showProductDetail(product: product.product)
             })
             .disposed(by: disposeBag)
         
@@ -154,7 +166,7 @@ extension ProductsViewModel: ViewModel {
         select(trigger: input.editProduct, items: productList)
             .map { $0.product }
             .flatMapLatest { product -> Driver<EditProductDelegate> in
-                self.showEditProduct(product)
+                self.vm_showEditProduct(product)
             }
             .drive(onNext: { delegate in
                 switch delegate {
@@ -189,7 +201,7 @@ extension ProductsViewModel: ViewModel {
                     .map { product }
             }
             .flatMapLatest { product -> Driver<Product> in
-                self.deleteProduct(dto: DeleteProductDto(id: product.id))
+                self.vm_deleteProduct(dto: DeleteProductDto(id: product.id))
                     .trackActivity(activityIndicator.loadingIndicator)
                     .trackError(errorTracker)
                     .map { _ in product }

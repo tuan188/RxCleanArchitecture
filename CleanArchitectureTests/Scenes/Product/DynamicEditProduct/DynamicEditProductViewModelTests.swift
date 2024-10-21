@@ -12,9 +12,7 @@ import RxSwift
 import ValidatedPropertyKit
 
 final class DynamicEditProductViewModelTests: XCTestCase {
-    private var viewModel: DynamicEditProductViewModel!
-    private var navigator: DynamicEditProductNavigatorMock!
-    private var useCase: DynamicEditProductUseCaseMock!
+    private var viewModel: TestDynamicEditProductViewModel!
     private var input: DynamicEditProductViewModel.Input!
     private var output: DynamicEditProductViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -27,9 +25,8 @@ final class DynamicEditProductViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        navigator = DynamicEditProductNavigatorMock()
-        useCase = DynamicEditProductUseCaseMock()
-        viewModel = DynamicEditProductViewModel(navigator: navigator, useCase: useCase, product: Product())
+        viewModel = TestDynamicEditProductViewModel(navigationController: UINavigationController(),
+                                                    product: Product())
         
         input = DynamicEditProductViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -67,7 +64,7 @@ final class DynamicEditProductViewModelTests: XCTestCase {
         cancelTrigger.onNext(())
         
         // assert
-        XCTAssert(navigator.dismissCalled)
+        XCTAssert(viewModel.dismissCalled)
     }
     
     func test_dataTrigger_product_name() {
@@ -94,7 +91,7 @@ final class DynamicEditProductViewModelTests: XCTestCase {
         updateTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.validateNameCalled)
+        XCTAssert(viewModel.validateNameCalled)
     }
     
     func test_dataTrigger_product_price() {
@@ -121,7 +118,7 @@ final class DynamicEditProductViewModelTests: XCTestCase {
         updateTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.validatePriceCalled)
+        XCTAssert(viewModel.validatePriceCalled)
     }
     
     func test_loadTriggerInvoked_enableUpdateByDefault() {
@@ -134,8 +131,8 @@ final class DynamicEditProductViewModelTests: XCTestCase {
     
     func test_updateTrigger_not_update() {
         // arrange
-        useCase.validateNameReturnValue = ValidationResult.failure(ValidationError(message: ""))
-        useCase.validatePriceReturnValue = ValidationResult.failure(ValidationError(message: ""))
+        viewModel.validateNameResult = ValidationResult.failure(ValidationError(description: ""))
+        viewModel.validatePriceResult = ValidationResult.failure(ValidationError(description: ""))
         
         // act
         dataTrigger.onNext(DynamicEditProductViewModel.DataType.name("foo"))
@@ -146,7 +143,7 @@ final class DynamicEditProductViewModelTests: XCTestCase {
         XCTAssertFalse(output.nameValidation.isValid)
         XCTAssertFalse(output.priceValidation.isValid)
         XCTAssertEqual(output.isUpdateEnabled, false)
-        XCTAssertFalse(useCase.updateCalled)
+        XCTAssertFalse(viewModel.updateCalled)
     }
     
     func test_updateTrigger_update() {
@@ -154,19 +151,57 @@ final class DynamicEditProductViewModelTests: XCTestCase {
         updateTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.updateCalled)
-        XCTAssert(useCase.notifyUpdatedCalled)
+        XCTAssert(viewModel.updateCalled)
+        XCTAssert(viewModel.notifyUpdatedCalled)
     }
     
     func test_updateTrigger_update_fail_show_error() {
         // arrange
-        useCase.updateReturnValue = Observable.error(TestError())
+        viewModel.updateResult = Observable.error(TestError())
         
         // act
         updateTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.updateCalled)
+        XCTAssert(viewModel.updateCalled)
         XCTAssert(output.error is TestError)
+    }
+}
+
+class TestDynamicEditProductViewModel: DynamicEditProductViewModel {
+    var validateNameCalled: Bool = false
+    var validateNameResult: ValidationResult = .success(())
+    
+    override func validateName(_ name: String) -> ValidationResult {
+        validateNameCalled = true
+        return validateNameResult
+    }
+    
+    var validatePriceCalled: Bool = false
+    var validatePriceResult: ValidationResult = .success(())
+    
+    override func validatePrice(_ price: String) -> ValidationResult {
+        validatePriceCalled = true
+        return validatePriceResult
+    }
+    
+    var updateCalled: Bool = false
+    var updateResult: Observable<Void> = .just(())
+    
+    override func update(_ product: ProductDto) -> Observable<Void> {
+        updateCalled = true
+        return updateResult
+    }
+    
+    var notifyUpdatedCalled: Bool = false
+    
+    override func notifyUpdated(_ product: Product) {
+        notifyUpdatedCalled = true
+    }
+    
+    var dismissCalled: Bool = false
+    
+    override func vm_dismiss() {
+        dismissCalled = true
     }
 }

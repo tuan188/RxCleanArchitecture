@@ -11,9 +11,7 @@ import XCTest
 import RxSwift
 
 final class UserListViewModelTests: XCTestCase {
-    private var viewModel: UserListViewModel!
-    private var navigator: UserListNavigatorMock!
-    private var useCase: UserListUseCaseMock!
+    private var viewModel: TestUserListViewModel!
     
     private var input: UserListViewModel.Input!
     private var output: UserListViewModel.Output!
@@ -26,9 +24,7 @@ final class UserListViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigator = UserListNavigatorMock()
-        useCase = UserListUseCaseMock()
-        viewModel = UserListViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestUserListViewModel()
         
         input = UserListViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -45,19 +41,19 @@ final class UserListViewModelTests: XCTestCase {
         loadTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.getUserListCalled)
+        XCTAssert(viewModel.getUsersCalled)
         XCTAssertEqual(output.userList.count, 1)
     }
 
     func test_loadTrigger_getUserList_failedShowError() {
         // arrange
-        useCase.getUserListReturnValue = Observable.error(TestError())
+        viewModel.getUsersResult = .error(TestError())
 
         // act
         loadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getUserListCalled)
+        XCTAssert(viewModel.getUsersCalled)
         XCTAssert(output.error is TestError)
     }
 
@@ -66,46 +62,46 @@ final class UserListViewModelTests: XCTestCase {
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getUserListCalled)
+        XCTAssert(viewModel.getUsersCalled)
         XCTAssertEqual(output.userList.count, 1)
     }
 
     func test_reloadTrigger_getUserList_failedShowError() {
         // arrange
-        useCase.getUserListReturnValue = Observable.error(TestError())
+        viewModel.getUsersResult = .error(TestError())
 
         // act
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getUserListCalled)
+        XCTAssert(viewModel.getUsersCalled)
         XCTAssert(output.error is TestError)
     }
 
     func test_reloadTrigger_notGetUserListIfStillLoading() {
         // arrange
-        useCase.getUserListReturnValue = Observable.never()
+        viewModel.getUsersResult = Observable.never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getUserListCalled = false
+        viewModel.getUsersCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getUserListCalled)
+        XCTAssertFalse(viewModel.getUsersCalled)
     }
 
     func test_reloadTrigger_notGetUserListIfStillReloading() {
         // arrange
-        useCase.getUserListReturnValue = Observable.never()
+        viewModel.getUsersResult = Observable.never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getUserListCalled = false
+        viewModel.getUsersCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getUserListCalled)
+        XCTAssertFalse(viewModel.getUsersCalled)
     }
 
     func test_selectUserTrigger_toUserDetail() {
@@ -114,6 +110,22 @@ final class UserListViewModelTests: XCTestCase {
         selectUserTrigger.onNext(IndexPath(row: 0, section: 0))
 
         // assert
-        XCTAssert(navigator.toUserDetailCalled)
+        XCTAssert(viewModel.showUserDetailCalled)
+    }
+}
+
+class TestUserListViewModel: UserListViewModel {
+    var showUserDetailCalled: Bool = false
+    
+    override func showUserDetail(user: User) {
+        showUserDetailCalled = true
+    }
+    
+    var getUsersCalled: Bool = false
+    var getUsersResult: Observable<[User]> = .just([User()])
+    
+    override func vm_getUsers() -> Observable<[User]> {
+        getUsersCalled = true
+        return getUsersResult
     }
 }

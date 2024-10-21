@@ -24,6 +24,10 @@ class ReposViewModel: GettingRepoList, ShowRepoDetail {
     func getRepoList(page: Int) -> Observable<PagingInfo<Repo>> {
         return getRepoList(dto: GetPageDto(page: page, perPage: 10, usingCache: true))
     }
+    
+    func vm_showRepoDetail(repo: Repo) {
+        showRepoDetail(repo: repo)
+    }
 }
 
 // MARK: - ViewModel
@@ -67,7 +71,7 @@ extension ReposViewModel: ViewModel {
             .disposed(by: disposeBag)
 
         select(trigger: input.selectRepo, items: repoList)
-            .drive(onNext: showRepoDetail)
+            .drive(onNext: vm_showRepoDetail)
             .disposed(by: disposeBag)
         
         checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)

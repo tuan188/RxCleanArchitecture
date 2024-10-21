@@ -10,11 +10,10 @@
 import XCTest
 import RxSwift
 import RxTest
+import RxCocoa
 
 final class ProductsViewModelTests: XCTestCase {
-    private var viewModel: ProductsViewModel!
-    private var navigator: ProductsNavigatorMock!
-    private var useCase: ProductsUseCaseMock!
+    private var viewModel: TestProductsViewModel!
     private var input: ProductsViewModel.Input!
     private var output: ProductsViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -41,9 +40,7 @@ final class ProductsViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigator = ProductsNavigatorMock()
-        useCase = ProductsUseCaseMock()
-        viewModel = ProductsViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestProductsViewModel(navigationController: UINavigationController())
         
         input = ProductsViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -115,19 +112,19 @@ final class ProductsViewModelTests: XCTestCase {
         startTriggers(load: .next(0, ()))
         
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssertEqual(productListOutput.lastEventElement?.count, 1)
     }
 
     func test_loadTriggerInvoked_getProductList_failedShowError() {
         // arrange
-        useCase.getProductListReturnValue = Observable.error(TestError())
+        viewModel.getProductListResult = .error(TestError())
 
         // act
         startTriggers(load: .next(0, ()))
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssert(errorOutput.lastEventElement is TestError)
     }
 
@@ -136,46 +133,46 @@ final class ProductsViewModelTests: XCTestCase {
         startTriggers(reload: .next(0, ()))
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssertEqual(productListOutput.lastEventElement?.count, 1)
     }
 
     func test_reloadTriggerInvoked_getProductList_failedShowError() {
         // arrange
-        useCase.getProductListReturnValue = Observable.error(TestError())
+        viewModel.getProductListResult = Observable.error(TestError())
 
         // act
         startTriggers(reload: .next(0, ()))
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssert(errorOutput.lastEventElement is TestError)
     }
 
     func test_reloadTriggerInvoked_notGetProductListIfStillLoading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_reloadTriggerInvoked_notGetProductListIfStillReloading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_loadMoreTriggerInvoked_loadMoreProductList() {
@@ -183,59 +180,59 @@ final class ProductsViewModelTests: XCTestCase {
         startTriggers(load: .next(0, ()), loadMore: .next(10, ()))
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssertEqual(productListOutput.lastEventElement?.count, 2)
     }
 
     func test_loadMoreTriggerInvoked_loadMoreProductList_failedShowError() {
         // arrange
-        useCase.getProductListReturnValue = Observable.error(TestError())
+        viewModel.getProductListResult = .error(TestError())
 
         // act
         startTriggers(load: .next(0, ()), loadMore: .next(10, ()))
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssert(errorOutput.lastEventElement is TestError)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreProductListIfStillLoading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreProductListIfStillReloading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         loadMoreTrigger.onNext(())
         
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreDocumentTypesStillLoadingMore() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         loadMoreTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_selectProductTriggerInvoked_toProductDetail() {
@@ -243,7 +240,7 @@ final class ProductsViewModelTests: XCTestCase {
         startTriggers(load: .next(0, ()), selectProduct: .next(10, IndexPath(row: 0, section: 0)))
 
         // assert
-        XCTAssert(navigator.toProductDetailCalled)
+        XCTAssert(viewModel.showProductDetailCalled)
     }
     
     func test_editProductTriggerInvoked_editProduct() {
@@ -251,7 +248,7 @@ final class ProductsViewModelTests: XCTestCase {
         startTriggers(load: .next(0, ()), editProduct: .next(10, IndexPath(row: 0, section: 0)))
 
         // assert
-        XCTAssert(navigator.toEditProductCalled)
+        XCTAssert(viewModel.showEditProductCalled)
     }
     
     func test_deletedProductInvoked_deleteProduct() {
@@ -259,8 +256,47 @@ final class ProductsViewModelTests: XCTestCase {
         startTriggers(load: .next(0, ()), deleteProduct: .next(10, IndexPath(row: 0, section: 0)))
 
         // assert
-        XCTAssert(navigator.confirmDeleteProductCalled)
-        XCTAssert(useCase.deleteProductCalled)
+        XCTAssert(viewModel.confirmDeleteProductCalled)
+        XCTAssert(viewModel.deleteProductCalled)
     }
 }
 
+final class TestProductsViewModel: ProductsViewModel {
+    var getProductListCalled: Bool = false
+    var getProductListResult: Observable<PagingInfo<Product>> = .just(PagingInfo<Product>(page: 1, items: [Product()]))
+    
+    override func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
+        getProductListCalled = true
+        return getProductListResult
+    }
+    
+    var deleteProductCalled: Bool = false
+    var deleteProductResult: Observable<Void> = .just(())
+    
+    override func vm_deleteProduct(dto: DeleteProductDto) -> Observable<Void> {
+        deleteProductCalled = true
+        return deleteProductResult
+    }
+    
+    var confirmDeleteProductCalled: Bool = false
+    var confirmDeleteProductResult: Driver<Void> = .just(())
+    
+    override func confirmDeleteProduct(_ product: Product) -> Driver<Void> {
+        confirmDeleteProductCalled = true
+        return confirmDeleteProductResult
+    }
+    
+    var showProductDetailCalled: Bool = false
+    
+    override func vm_showProductDetail(product: Product) {
+        showProductDetailCalled = true
+    }
+    
+    var showEditProductCalled: Bool = false
+    var showEditProductResult: Driver<EditProductDelegate> = .just(.updatedProduct(Product()))
+    
+    override func vm_showEditProduct(_ product: Product) -> Driver<EditProductDelegate> {
+        showEditProductCalled = true
+        return showEditProductResult
+    }
+}

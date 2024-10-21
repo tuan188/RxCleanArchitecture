@@ -22,6 +22,18 @@ class LoginViewModel: ShowAutoCloseMessage, LoggingIn {
     func showLoginSuccessMessage() {
         showAutoCloseMessage("Login success")
     }
+    
+    func vm_login(dto: LoginDto) -> Observable<Void> {
+        login(dto: dto)
+    }
+    
+    func vm_validateUserName(_ username: String) -> ValidationResult {
+        validateUserName(username)
+    }
+    
+    func vm_validatePassword(_ password: String) -> ValidationResult {
+        validatePassword(password)
+    }
 }
 
 // MARK: - ViewModel
@@ -58,7 +70,7 @@ extension LoginViewModel: ViewModel {
         
         let usernameValidation = Driver.combineLatest(input.username, input.login)
             .map { $0.0 }
-            .map(validateUserName)
+            .map(vm_validateUserName)
         
         usernameValidation
             .map(\.message)
@@ -67,7 +79,7 @@ extension LoginViewModel: ViewModel {
   
         let passwordValidation = Driver.combineLatest(input.password, input.login)
             .map { $0.0 }
-            .map(validatePassword)
+            .map(vm_validatePassword)
         
         passwordValidation
             .map(\.message)
@@ -91,7 +103,7 @@ extension LoginViewModel: ViewModel {
             .filter { $0 }
             .withLatestFrom(Driver.combineLatest(input.username, input.password))
             .flatMapLatest { username, password -> Driver<Void> in
-                self.login(dto: LoginDto(username: username, password: password))
+                self.vm_login(dto: LoginDto(username: username, password: password))
                     .trackError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()

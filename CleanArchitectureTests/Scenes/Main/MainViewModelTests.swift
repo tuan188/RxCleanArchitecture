@@ -12,9 +12,7 @@ import RxSwift
 
 final class MainViewModelTests: XCTestCase {
     
-    private var viewModel: MainViewModel!
-    private var navigator: MainNavigatorMock!
-    private var useCase: MainUseCaseMock!
+    private var viewModel: TestMainViewModel!
     private var input: MainViewModel.Input!
     private var output: MainViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -25,9 +23,7 @@ final class MainViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        navigator = MainNavigatorMock()
-        useCase = MainUseCaseMock()
-        viewModel = MainViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestMainViewModel(navigationController: UINavigationController())
         
         input = MainViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -72,7 +68,7 @@ final class MainViewModelTests: XCTestCase {
         selectMenuTrigger.onNext(indexPath)
         
         // assert
-        XCTAssert(navigator.toProductsCalled)
+        XCTAssert(viewModel.showProductsCalled)
     }
     
     func test_selectMenuTriggerInvoked_toSectionedProductList() {
@@ -87,7 +83,7 @@ final class MainViewModelTests: XCTestCase {
         selectMenuTrigger.onNext(indexPath)
         
         // assert
-        XCTAssert(navigator.toSectionedProductsCalled)
+        XCTAssert(viewModel.showSectionedProductsCalled)
     }
     
     func test_selectMenuTriggerInvoked_toRepoList() {
@@ -102,7 +98,7 @@ final class MainViewModelTests: XCTestCase {
         selectMenuTrigger.onNext(indexPath)
         
         // assert
-        XCTAssert(navigator.toReposCalled)
+        XCTAssert(viewModel.showReposCalled)
     }
     
     func test_selectMenuTriggerInvoked_toRepoCollection() {
@@ -117,7 +113,7 @@ final class MainViewModelTests: XCTestCase {
         selectMenuTrigger.onNext(indexPath)
         
         // assert
-        XCTAssert(navigator.toRepoCollectionCalled)
+        XCTAssert(viewModel.showRepoCollectionCalled)
     }
     
     func test_selectMenuTriggerInvoked_toUsers() {
@@ -132,7 +128,7 @@ final class MainViewModelTests: XCTestCase {
         selectMenuTrigger.onNext(indexPath)
         
         // assert
-        XCTAssert(navigator.toUsersCalled)
+        XCTAssert(viewModel.showUsersCalled)
     }
     
     func test_selectMenuTriggerInvoked_toLogin() {
@@ -147,7 +143,56 @@ final class MainViewModelTests: XCTestCase {
         selectMenuTrigger.onNext(indexPath)
         
         // assert
-        XCTAssert(navigator.toLoginCalled)
+        XCTAssert(viewModel.showLoginCalled)
     }
 }
 
+class TestMainViewModel: MainViewModel {
+    var showLoginCalled: Bool = false
+    
+    override func vm_showLogin() {
+        showLoginCalled = true
+    }
+    
+    var showProductsCalled: Bool = false
+    
+    override func vm_showProducts() {
+        showProductsCalled = true
+    }
+    
+    var showRepoCarouselCalled: Bool = false
+    
+    override func vm_showRepoCarousel() {
+        showRepoCarouselCalled = true
+    }
+    
+    var showUsersCalled: Bool = false
+    
+    override func vm_showUsers() {
+        showUsersCalled = true
+    }
+    
+    var showReposCalled: Bool = false
+    
+    override func vm_showRepos() {
+        showReposCalled = true
+    }
+    
+    var showRepoCollectionCalled: Bool = false
+    
+    override func vm_showRepoCollection() {
+        showRepoCollectionCalled = true
+    }
+    
+    var showSectionedProductsCalled: Bool = false
+    
+    override func vm_showSectionedProducts() {
+        showSectionedProductsCalled = true
+    }
+    
+    var showSectionedProductCollectionCalled: Bool = false
+    
+    override func vm_showSectionedProductCollection() {
+        showSectionedProductCollectionCalled = true
+    }
+}

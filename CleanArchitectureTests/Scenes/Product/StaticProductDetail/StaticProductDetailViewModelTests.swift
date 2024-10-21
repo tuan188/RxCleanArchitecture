@@ -13,8 +13,6 @@ import RxSwift
 final class StaticProductDetailViewModelTests: XCTestCase {
 
     private var viewModel: StaticProductDetailViewModel!
-    private var navigator: StaticProductDetailNavigatorMock!
-    private var useCase: StaticProductDetailUseCaseMock!
     private var input: StaticProductDetailViewModel.Input!
     private var output: StaticProductDetailViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -26,9 +24,7 @@ final class StaticProductDetailViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigator = StaticProductDetailNavigatorMock()
-        useCase = StaticProductDetailUseCaseMock()
-        viewModel = StaticProductDetailViewModel(navigator: navigator, useCase: useCase, product: product)
+        viewModel = StaticProductDetailViewModel(product: product)
         
         input = StaticProductDetailViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete()

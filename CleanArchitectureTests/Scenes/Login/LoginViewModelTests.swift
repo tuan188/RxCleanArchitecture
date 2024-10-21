@@ -13,9 +13,7 @@ import RxTest
 import ValidatedPropertyKit
 
 final class LoginViewModelTests: XCTestCase {
-    private var viewModel: LoginViewModel!
-    private var navigator: LoginNavigatorMock!
-    private var useCase: LoginUseCaseMock!
+    private var viewModel: TestLoginViewModel!
     private var input: LoginViewModel.Input!
     private var output: LoginViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -36,9 +34,7 @@ final class LoginViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        navigator = LoginNavigatorMock()
-        useCase = LoginUseCaseMock()
-        viewModel = LoginViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestLoginViewModel(navigationController: UINavigationController())
         
         input = LoginViewModel.Input(
             username: usernameTrigger.asDriverOnErrorJustComplete(),
@@ -83,7 +79,7 @@ final class LoginViewModelTests: XCTestCase {
         startTriggers()
         
         // assert
-        XCTAssert(useCase.validateUserNameCalled)
+        XCTAssert(viewModel.validateUserNameCalled)
     }
     
     func test_loginTrigger_validatePassword() {
@@ -91,12 +87,12 @@ final class LoginViewModelTests: XCTestCase {
         startTriggers()
         
         // assert
-        XCTAssert(useCase.validatePasswordCalled)
+        XCTAssert(viewModel.validatePasswordCalled)
     }
     
     func test_loginTrigger_validateUsernameFailed_disableLogin() {
         // arrange
-        useCase.validateUserNameReturnValue = .failure(ValidationError(message: "invalid username"))
+        viewModel.validatePasswordResult = .failure(ValidationError(description: "invalid username"))
         
         // act
         startTriggers()
@@ -104,19 +100,19 @@ final class LoginViewModelTests: XCTestCase {
         // assert
         XCTAssertEqual(isLoginEnabledOutput.events, [.next(0, true), .next(10, false)])
         XCTAssertEqual(isLoginEnabledOutput.events.last, .next(10, false))
-        XCTAssertFalse(useCase.loginCalled)
+        XCTAssertFalse(viewModel.loginCalled)
     }
     
     func test_loginTrigger_validatePasswordFailed_disableLogin() {
         // arrange
-        useCase.validatePasswordReturnValue = .failure(ValidationError(message: "invalid password"))
+        viewModel.validatePasswordResult = .failure(ValidationError(description: "invalid password"))
         
         // act
         startTriggers()
         
         // assert
         XCTAssertEqual(isLoginEnabledOutput.events.last, .next(10, false))
-        XCTAssertFalse(useCase.loginCalled)
+        XCTAssertFalse(viewModel.loginCalled)
     }
     
     func test_loginTrigger_login() {
@@ -124,34 +120,66 @@ final class LoginViewModelTests: XCTestCase {
         startTriggers()
         
         // assert
-        XCTAssert(useCase.loginCalled)
-        XCTAssert(navigator.toMainCalled)
+        XCTAssert(viewModel.loginCalled)
+        XCTAssert(viewModel.showLoginSuccessMessageCalled)
     }
     
     func test_loginTrigger_login_showLoading() {
         // arrange
-        useCase.loginReturnValue = Observable<Void>.never()
+        viewModel.loginRessult = .never()
         
         // act
         startTriggers()
         
         // assert
-        XCTAssert(useCase.loginCalled)
+        XCTAssert(viewModel.loginCalled)
         XCTAssertEqual(isLoadingOutput.events, [.next(0, false), .next(10, true)])
         XCTAssertEqual(isLoginEnabledOutput.events.last, .next(10, false))
     }
     
     func test_loginTrigger_login_failedShowError() {
         // arrange
-        useCase.loginReturnValue = Observable.error(TestError())
+        viewModel.loginRessult = .error(TestError())
         
         // act
         startTriggers()
         
         // assert
-        XCTAssert(useCase.loginCalled)
+        XCTAssert(viewModel.loginCalled)
         XCTAssert(errorOutput.events.last?.value.element is TestError)
-        XCTAssertFalse(navigator.toMainCalled)
+        XCTAssertFalse(viewModel.showLoginSuccessMessageCalled)
     }
     
+}
+
+class TestLoginViewModel: LoginViewModel {
+    var loginCalled: Bool = false
+    var loginRessult: Observable<Void> = .just(())
+    
+    override func vm_login(dto: LoginDto) -> Observable<Void> {
+        loginCalled = true
+        return loginRessult.asObservable()
+    }
+    
+    var showLoginSuccessMessageCalled: Bool = false
+    
+    override func showLoginSuccessMessage() {
+        showLoginSuccessMessageCalled = true
+    }
+    
+    var validateUserNameCalled: Bool = false
+    var validateUserNameResult: ValidationResult = .success(())
+    
+    override func vm_validateUserName(_ username: String) -> ValidationResult {
+        validateUserNameCalled = true
+        return validateUserNameResult
+    }
+    
+    var validatePasswordCalled: Bool = false
+    var validatePasswordResult: ValidationResult = .success(())
+    
+    override func vm_validatePassword(_ password: String) -> ValidationResult {
+        validatePasswordCalled = true
+        return validatePasswordResult
+    }
 }

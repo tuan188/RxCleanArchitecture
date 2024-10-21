@@ -16,6 +16,12 @@ struct Owner: Codable {
     }
 }
 
+extension Owner {
+    static func mock() -> Self {
+        return .init(avatarURLString: "https://avatars1.githubusercontent.com/u/12345678?v=4")
+    }
+}
+
 struct Repo: Codable {
     var id: Int
     var name: String
@@ -37,3 +43,17 @@ struct Repo: Codable {
 }
 
 extension Repo: Then { }
+
+extension Repo {
+    static func mock() -> Self {
+        return .init(
+            id: 1,
+            name: "Mock Repo",
+            fullname: "Mock Repo",
+            urlString: "https://github.com/SunAsterisk/CleanArchitecture",
+            starCount: 1,
+            folkCount: 1,
+            owner: Owner.mock()
+        )
+    }
+}

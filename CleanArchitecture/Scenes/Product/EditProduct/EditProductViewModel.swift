@@ -47,6 +47,10 @@ class EditProductViewModel: UpdatingProduct, Dismissible {
         return updateProduct(product)
     }
     
+    func vm_dismiss() {
+        dismiss()
+    }
+    
     deinit {
         print("EditProductViewModel deinit")
     }
@@ -131,12 +135,12 @@ extension EditProductViewModel: ViewModel {
             }
             .drive(onNext: { product in
                 self.delegate.onNext(EditProductDelegate.updatedProduct(product))
-                self.dismiss()
+                self.vm_dismiss()
             })
             .disposed(by: disposeBag)
         
         input.cancel
-            .drive(onNext: dismiss)
+            .drive(onNext: vm_dismiss)
             .disposed(by: disposeBag)
         
         errorTracker

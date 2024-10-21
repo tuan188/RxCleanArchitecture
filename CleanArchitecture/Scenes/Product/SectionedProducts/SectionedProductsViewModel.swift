@@ -25,6 +25,14 @@ class SectionedProductsViewModel: GettingProductList, ShowStaticProductDetail, S
         let dto = GetPageDto(page: page, perPage: 10, usingCache: true)
         return getProductList(dto: dto)
     }
+    
+    func vm_showStaticProductDetail(product: Product) {
+        showStaticProductDetail(product: product)
+    }
+    
+    func vm_showDynamicEditProduct(_ product: Product) {
+        showDynamicEditProduct(product)
+    }
 }
 
 // MARK: - ViewModel
@@ -141,7 +149,7 @@ extension SectionedProductsViewModel: ViewModel {
                 return productSections[indexPath.section].productList[indexPath.row]
             }
             .drive(onNext: { product in
-                self.showStaticProductDetail(product: product.product)
+                self.vm_showStaticProductDetail(product: product.product)
             })
             .disposed(by: disposeBag)
         
@@ -154,7 +162,7 @@ extension SectionedProductsViewModel: ViewModel {
             .withLatestFrom(productSections) { indexPath, productSections -> Product in
                 return productSections[indexPath.section].productList[indexPath.row].product
             }
-            .drive(onNext: showDynamicEditProduct)
+            .drive(onNext: vm_showDynamicEditProduct)
             .disposed(by: disposeBag)
         
         input.updatedProduct

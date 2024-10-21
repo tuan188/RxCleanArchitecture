@@ -18,6 +18,10 @@ class UserListViewModel: GettingUsers {
     func showUserDetail(user: User) {
         print("User detail: \(user.name)")
     }
+    
+    func vm_getUsers() -> Observable<[User]> {
+        getUsers()
+    }
 }
 
 // MARK: - ViewModel
@@ -43,7 +47,7 @@ extension UserListViewModel: ViewModel {
             loadTrigger: input.load,
             reloadTrigger: input.reload,
             getItems: { [unowned self] in
-                getUsers()
+                vm_getUsers()
             })
         
         let getListResult = getList(input: getListInput)

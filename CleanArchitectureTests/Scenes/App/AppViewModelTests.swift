@@ -13,9 +13,7 @@ import RxTest
 
 final class AppViewModelTests: XCTestCase {
     
-    private var viewModel: AppViewModel!
-    private var navigator: AppNavigatorMock!
-    private var useCase: AppUseCaseMock!
+    private var viewModel: TestAppViewModel!
     private var input: AppViewModel.Input!
     private var output: AppViewModel.Output!
     private var scheduler: TestScheduler!
@@ -29,9 +27,7 @@ final class AppViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        navigator = AppNavigatorMock()
-        useCase = AppUseCaseMock()
-        viewModel = AppViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestAppViewModel(window: UIWindow())
         
         input = AppViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete()
@@ -49,7 +45,23 @@ final class AppViewModelTests: XCTestCase {
         loadTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.addUserDataCalled)
-        XCTAssert(navigator.toMainCalled)
+        XCTAssert(viewModel.addUserDataCalled)
+        XCTAssert(viewModel.showMainCalled)
+    }
+}
+
+class TestAppViewModel: AppViewModel {
+    var addUserDataCalled: Bool = false
+    var addUserDataResult: Observable<Void> = .just(())
+    
+    override func vm_addUserData() -> Observable<Void> {
+        addUserDataCalled = true
+        return addUserDataResult.asObservable()
+    }
+    
+    var showMainCalled: Bool = false
+    
+    override func vm_showMain() {
+        showMainCalled = true
     }
 }

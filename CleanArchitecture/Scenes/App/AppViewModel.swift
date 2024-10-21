@@ -23,6 +23,14 @@ class AppViewModel: SettingUpUserData, ShowMain {
     init(window: UIWindow) {
         self.window = window
     }
+    
+    func vm_addUserData() -> Observable<Void> {
+        addUserData()
+    }
+    
+    func vm_showMain() {
+        showMain()
+    }
 }
 
 // MARK: - ViewModel
@@ -34,11 +42,11 @@ extension AppViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) {
         input.load
             .flatMapLatest {
-                self.addUserData()
+                self.vm_addUserData()
                     .asDriverOnErrorJustComplete()
             }
             .drive(onNext: {
-                self.showMain()
+                self.vm_showMain()
             })
             .disposed(by: disposeBag)
     }

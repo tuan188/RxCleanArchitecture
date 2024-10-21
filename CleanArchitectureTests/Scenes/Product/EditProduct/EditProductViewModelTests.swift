@@ -14,9 +14,7 @@ import ValidatedPropertyKit
 
 final class EditProductViewModelTests: XCTestCase {
     
-    private var viewModel: EditProductViewModel!
-    private var navigator: EditProductNavigatorMock!
-    private var useCase: EditProductUseCaseMock!
+    private var viewModel: TestEditProductViewModel!
     private var input: EditProductViewModel.Input!
     private var output: EditProductViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -45,10 +43,8 @@ final class EditProductViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        navigator = EditProductNavigatorMock()
-        useCase = EditProductUseCaseMock()
         product = Product(id: 1, name: "foobar", price: 10)
-        viewModel = EditProductViewModel(navigator: navigator, useCase: useCase, product: product, delegate: delegate)
+        viewModel = TestEditProductViewModel(product: product, delegate: delegate, navigationController: UINavigationController())
         
         input = EditProductViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -132,12 +128,12 @@ final class EditProductViewModelTests: XCTestCase {
         startTriggers(name: .next(0, "Foo"), update: .next(10, ()))
         
         // assert
-        XCTAssert(useCase.validateNameCalled)
+        XCTAssert(viewModel.validateNameCalled)
     }
     
     func test_nameTriggerInvoked_validateNameFailNotEnableUpdate() {
         // arrange
-        useCase.validateNameReturnValue = ValidationResult.failure(ValidationError(message: ""))
+        viewModel.validateNameResult = ValidationResult.failure(ValidationError(description: ""))
         
         // act
         startTriggers(
@@ -160,12 +156,12 @@ final class EditProductViewModelTests: XCTestCase {
         )
         
         // assert
-        XCTAssert(useCase.validatePriceCalled)
+        XCTAssert(viewModel.validatePriceCalled)
     }
     
     func test_priceTriggerInvoked_validatePriceFailNotEnableUpdate() {
         // arrange
-        useCase.validatePriceReturnValue = ValidationResult.failure(ValidationError(message: ""))
+        viewModel.validatePriceResult = ValidationResult.failure(ValidationError(description: ""))
         
         // act
         startTriggers(
@@ -192,7 +188,7 @@ final class EditProductViewModelTests: XCTestCase {
     
     func test_updateTriggerInvoked_notUpdateProduct() {
         // arrange
-        useCase.validateNameReturnValue = ValidationResult.failure(ValidationError(message: ""))
+        viewModel.validateNameResult = ValidationResult.failure(ValidationError(description: ""))
         
         // act
         startTriggers(
@@ -202,7 +198,7 @@ final class EditProductViewModelTests: XCTestCase {
         )
         
         // assert
-        XCTAssertFalse(useCase.updateCalled)
+        XCTAssertFalse(viewModel.updateCalled)
     }
     
     func test_updateTriggerInvoked_updateProduct() {
@@ -214,13 +210,13 @@ final class EditProductViewModelTests: XCTestCase {
         )
         
         // assert
-        XCTAssert(useCase.updateCalled)
-        XCTAssert(navigator.dismissCalled)
+        XCTAssert(viewModel.updateCalled)
+        XCTAssert(viewModel.dismissCalled)
     }
     
     func test_updateTriggerInvoked_updateProductFailShowError() {
         // arrange
-        useCase.updateReturnValue = Observable.error(TestError())
+        viewModel.updateResult = Observable.error(TestError())
         
         // act
         startTriggers(
@@ -230,8 +226,8 @@ final class EditProductViewModelTests: XCTestCase {
         )
         
         // assert
-        XCTAssert(useCase.updateCalled)
-        XCTAssertFalse(navigator.dismissCalled)
+        XCTAssert(viewModel.updateCalled)
+        XCTAssertFalse(viewModel.dismissCalled)
         XCTAssert(errorOutput.lastEventElement is TestError)
     }
     
@@ -240,7 +236,39 @@ final class EditProductViewModelTests: XCTestCase {
         startTriggers(cancel: .next(0, ()))
         
         // assert
-        XCTAssert(navigator.dismissCalled)
+        XCTAssert(viewModel.dismissCalled)
     }
     
+}
+
+final class TestEditProductViewModel: EditProductViewModel {
+    var validateNameCalled: Bool = false
+    var validateNameResult: ValidationResult = .success(())
+    
+    override func validateName(_ name: String) -> ValidationResult {
+        validateNameCalled = true
+        return validateNameResult
+    }
+    
+    var validatePriceCalled: Bool = false
+    var validatePriceResult: ValidationResult = .success(())
+    
+    override func validatePrice(_ price: String) -> ValidationResult {
+        validatePriceCalled = true
+        return validatePriceResult
+    }
+    
+    var updateCalled: Bool = false
+    var updateResult: Observable<Void> = .just(())
+    
+    override func update(_ product: ProductDto) -> Observable<Void> {
+        updateCalled = true
+        return updateResult
+    }
+    
+    var dismissCalled: Bool = false
+    
+    override func vm_dismiss() {
+        dismissCalled = true
+    }
 }

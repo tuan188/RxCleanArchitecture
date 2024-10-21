@@ -11,9 +11,7 @@ import XCTest
 import RxSwift
 
 final class ReposViewModelTests: XCTestCase {
-    private var viewModel: ReposViewModel!
-    private var navigator: ReposNavigatorMock!
-    private var useCase: ReposUseCaseMock!
+    private var viewModel: TestReposViewModel!
     private var input: ReposViewModel.Input!
     private var output: ReposViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -26,9 +24,7 @@ final class ReposViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigator = ReposNavigatorMock()
-        useCase = ReposUseCaseMock()
-        viewModel = ReposViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestReposViewModel(navigationController: UINavigationController())
         
         input = ReposViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -46,19 +42,19 @@ final class ReposViewModelTests: XCTestCase {
         loadTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.getRepoListCalled)
+        XCTAssert(viewModel.getRepoListCalled)
         XCTAssertEqual(output.repoList.count, 1)
     }
 
     func test_loadTriggerInvoked_getRepoList_failedShowError() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.error(TestError())
+        viewModel.getRepoListResult = .error(TestError())
 
         // act
         loadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getRepoListCalled)
+        XCTAssert(viewModel.getRepoListCalled)
         XCTAssert(output.error is TestError)
     }
 
@@ -67,46 +63,46 @@ final class ReposViewModelTests: XCTestCase {
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getRepoListCalled)
+        XCTAssert(viewModel.getRepoListCalled)
         XCTAssertEqual(output.repoList.count, 1)
     }
 
     func test_reloadTriggerInvoked_getRepoList_failedShowError() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.error(TestError())
+        viewModel.getRepoListResult = .error(TestError())
 
         // act
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getRepoListCalled)
+        XCTAssert(viewModel.getRepoListCalled)
         XCTAssert(output.error is TestError)
     }
 
     func test_reloadTriggerInvoked_notGetRepoListIfStillLoading() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.never()
+        viewModel.getRepoListResult = .never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getRepoListCalled = false
+        viewModel.getRepoListCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getRepoListCalled)
+        XCTAssertFalse(viewModel.getRepoListCalled)
     }
 
     func test_reloadTriggerInvoked_notGetRepoListIfStillReloading() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.never()
+        viewModel.getRepoListResult = .never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getRepoListCalled = false
+        viewModel.getRepoListCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getRepoListCalled)
+        XCTAssertFalse(viewModel.getRepoListCalled)
     }
 
     func test_loadMoreTriggerInvoked_loadMoreRepoList() {
@@ -115,60 +111,60 @@ final class ReposViewModelTests: XCTestCase {
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getRepoListCalled)
+        XCTAssert(viewModel.getRepoListCalled)
         XCTAssertEqual(output.repoList.count, 2)
     }
 
     func test_loadMoreTriggerInvoked_loadMoreRepoList_failedShowError() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.error(TestError())
+        viewModel.getRepoListResult = .error(TestError())
 
         // act
         loadTrigger.onNext(())
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getRepoListCalled)
+        XCTAssert(viewModel.getRepoListCalled)
         XCTAssert(output.error is TestError)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreRepoListIfStillLoading() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.never()
+        viewModel.getRepoListResult = .never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getRepoListCalled = false
+        viewModel.getRepoListCalled = false
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getRepoListCalled)
+        XCTAssertFalse(viewModel.getRepoListCalled)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreRepoListIfStillReloading() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.never()
+        viewModel.getRepoListResult = .never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getRepoListCalled = false
+        viewModel.getRepoListCalled = false
         loadMoreTrigger.onNext(())
         
         // assert
-        XCTAssertFalse(useCase.getRepoListCalled)
+        XCTAssertFalse(viewModel.getRepoListCalled)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreDocumentTypesStillLoadingMore() {
         // arrange
-        useCase.getRepoListReturnValue = Observable.never()
+        viewModel.getRepoListResult = .never()
         
         // act
         loadMoreTrigger.onNext(())
-        useCase.getRepoListCalled = false
+        viewModel.getRepoListCalled = false
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getRepoListCalled)
+        XCTAssertFalse(viewModel.getRepoListCalled)
     }
 
     func test_selectRepoTriggerInvoked_toRepoDetail() {
@@ -177,7 +173,22 @@ final class ReposViewModelTests: XCTestCase {
         selectRepoTrigger.onNext(IndexPath(row: 0, section: 0))
 
         // assert
-        XCTAssert(navigator.toRepoDetailCalled)
+        XCTAssert(viewModel.showRepoDetailCalled)
     }
 }
 
+class TestReposViewModel: ReposViewModel {
+    var getRepoListCalled: Bool = false
+    var getRepoListResult: Observable<PagingInfo<Repo>> = .just(PagingInfo(page: 1, items: [Repo.mock()]))
+    
+    override func getRepoList(page: Int) -> Observable<PagingInfo<Repo>> {
+        getRepoListCalled = true
+        return getRepoListResult
+    }
+    
+    var showRepoDetailCalled: Bool = false
+    
+    override func vm_showRepoDetail(repo: Repo) {
+        showRepoDetailCalled = true
+    }
+}

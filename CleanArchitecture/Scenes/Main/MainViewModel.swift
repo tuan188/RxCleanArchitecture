@@ -23,6 +23,38 @@ class MainViewModel: ShowLogin,
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
+    
+    func vm_showLogin() {
+        showLogin()
+    }
+    
+    func vm_showProducts() {
+        showProducts()
+    }
+    
+    func vm_showRepoCarousel() {
+        showRepoCarousel()
+    }
+    
+    func vm_showUsers() {
+        showUsers()
+    }
+    
+    func vm_showRepos() {
+        showRepos()
+    }
+    
+    func vm_showRepoCollection() {
+        showRepoCollection()
+    }
+    
+    func vm_showSectionedProducts() {
+        showSectionedProducts()
+    }
+    
+    func vm_showSectionedProductCollection() {
+        showSectionedProductCollection()
+    }
 }
 
 // MARK: - ViewModel
@@ -51,21 +83,21 @@ extension MainViewModel: ViewModel {
             .drive(onNext: { menu in
                 switch menu {
                 case .products:
-                    self.showProducts()
+                    self.vm_showProducts()
                 case .sectionedProducts:
-                    self.showSectionedProducts()
+                    self.vm_showSectionedProducts()
                 case .sectionedProductCollection:
-                    self.showSectionedProductCollection()
+                    self.vm_showSectionedProductCollection()
                 case .repos:
-                    self.showRepos()
+                    self.vm_showRepos()
                 case .repoCollection:
-                    self.showRepoCollection()
+                    self.vm_showRepoCollection()
                 case .repoCarousel:
-                    self.showRepoCarousel()
+                    self.vm_showRepoCarousel()
                 case .users:
-                    self.showUsers()
+                    self.vm_showUsers()
                 case .login:
-                    self.showLogin()
+                    self.vm_showLogin()
                 }
             })
             .disposed(by: disposeBag)

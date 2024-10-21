@@ -42,6 +42,10 @@ class DynamicEditProductViewModel: UpdatingProduct, Dismissible {
     func notifyUpdated(_ product: Product) {
         NotificationCenter.default.post(name: Notification.Name.updatedProduct, object: product)
     }
+    
+    func vm_dismiss() {
+        dismiss()
+    }
 }
 
 // MARK: - ViewModel
@@ -157,7 +161,7 @@ extension DynamicEditProductViewModel: ViewModel {
             .disposed(by: disposeBag)
         
         input.cancel
-            .drive(onNext: dismiss)
+            .drive(onNext: vm_dismiss)
             .disposed(by: disposeBag)
         
         input.update
@@ -173,7 +177,7 @@ extension DynamicEditProductViewModel: ViewModel {
             }
             .drive(onNext: { product in
                 self.notifyUpdated(product)
-                self.dismiss()
+                self.vm_dismiss()
             })
             .disposed(by: disposeBag)
         

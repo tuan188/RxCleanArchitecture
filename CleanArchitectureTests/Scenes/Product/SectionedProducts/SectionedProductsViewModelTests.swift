@@ -11,9 +11,7 @@ import XCTest
 import RxSwift
     
 final class SectionedProductsViewModelTests: XCTestCase {
-    private var viewModel: SectionedProductsViewModel!
-    private var navigator: SectionedProductsNavigatorMock!
-    private var useCase: SectionedProductsUseCaseMock!
+    private var viewModel: TestSectionedProductsViewModel!
     private var input: SectionedProductsViewModel.Input!
     private var output: SectionedProductsViewModel.Output!
     private var disposeBag: DisposeBag!
@@ -28,9 +26,7 @@ final class SectionedProductsViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        navigator = SectionedProductsNavigatorMock()
-        useCase = SectionedProductsUseCaseMock()
-        viewModel = SectionedProductsViewModel(navigator: navigator, useCase: useCase)
+        viewModel = TestSectionedProductsViewModel(navigationController: UINavigationController())
         
         input = SectionedProductsViewModel.Input(
             load: loadTrigger.asDriverOnErrorJustComplete(),
@@ -50,20 +46,20 @@ final class SectionedProductsViewModelTests: XCTestCase {
         loadTrigger.onNext(())
         
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssertEqual(output.productSections.count, 1)
         XCTAssertEqual(output.productSections[0].productList.count, 1)
     }
 
     func test_loadTriggerInvoked_getProductList_failedShowError() {
         // arrange
-        useCase.getProductListReturnValue = Observable.error(TestError())
+        viewModel.getProductListResult = .error(TestError())
 
         // act
         loadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssert(output.error is TestError)
     }
 
@@ -72,47 +68,47 @@ final class SectionedProductsViewModelTests: XCTestCase {
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssertEqual(output.productSections.count, 1)
         XCTAssertEqual(output.productSections[0].productList.count, 1)
     }
 
     func test_reloadTriggerInvoked_getProductList_failedShowError() {
         // arrange
-        useCase.getProductListReturnValue = Observable.error(TestError())
+        viewModel.getProductListResult = .error(TestError())
 
         // act
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssert(output.error is TestError)
     }
 
     func test_reloadTriggerInvoked_notGetProductListIfStillLoading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_reloadTriggerInvoked_notGetProductListIfStillReloading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         reloadTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_loadMoreTriggerInvoked_loadMoreProductList() {
@@ -121,61 +117,61 @@ final class SectionedProductsViewModelTests: XCTestCase {
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssertEqual(output.productSections.count, 1)
         XCTAssertEqual(output.productSections[0].productList.count, 2)
     }
 
     func test_loadMoreTriggerInvoked_loadMoreProductList_failedShowError() {
         // arrange
-        useCase.getProductListReturnValue = Observable.error(TestError())
+        viewModel.getProductListResult = .error(TestError())
 
         // act
         loadTrigger.onNext(())
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssert(useCase.getProductListCalled)
+        XCTAssert(viewModel.getProductListCalled)
         XCTAssert(output.error is TestError)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreProductListIfStillLoading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         loadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreProductListIfStillReloading() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         reloadTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         loadMoreTrigger.onNext(())
         
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_loadMoreTriggerInvoked_notLoadMoreDocumentTypesStillLoadingMore() {
         // arrange
-        useCase.getProductListReturnValue = Observable.never()
+        viewModel.getProductListResult = .never()
 
         // act
         loadMoreTrigger.onNext(())
-        useCase.getProductListCalled = false
+        viewModel.getProductListCalled = false
         loadMoreTrigger.onNext(())
 
         // assert
-        XCTAssertFalse(useCase.getProductListCalled)
+        XCTAssertFalse(viewModel.getProductListCalled)
     }
 
     func test_selectProductTriggerInvoked_toProductDetail() {
@@ -184,7 +180,29 @@ final class SectionedProductsViewModelTests: XCTestCase {
         selectProductTrigger.onNext(IndexPath(row: 0, section: 0))
 
         // assert
-        XCTAssert(navigator.toProductDetailCalled)
+        XCTAssert(viewModel.showStaticProductDetailCalled)
+    }
+}
+
+final class TestSectionedProductsViewModel: SectionedProductsViewModel {
+    var getProductListCalled: Bool = false
+    var getProductListResult: Observable<PagingInfo<Product>> = .just(PagingInfo<Product>(page: 1, items: [Product()]))
+    
+    override func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
+        getProductListCalled = true
+        return getProductListResult
+    }
+    
+    var showStaticProductDetailCalled: Bool = false
+    
+    override func vm_showStaticProductDetail(product: Product) {
+        showStaticProductDetailCalled = true
+    }
+    
+    var showDynamicEditProductCalled: Bool = false
+    
+    override func vm_showDynamicEditProduct(_ product: Product) {
+        showDynamicEditProductCalled = true
     }
 }
 
