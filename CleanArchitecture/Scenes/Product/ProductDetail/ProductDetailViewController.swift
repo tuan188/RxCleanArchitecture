@@ -11,6 +11,7 @@ import Reusable
 import RxSwift
 import RxCocoa
 import Factory
+import RxCleanArchitecture
 
 final class ProductDetailViewController: UIViewController, Bindable {
     

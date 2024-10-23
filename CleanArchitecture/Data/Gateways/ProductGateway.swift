@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import Then
 import Factory
+import RxCleanArchitecture
 
 protocol ProductGatewayProtocol {
     func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>>

@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import Factory
 import UIKit
+import RxCleanArchitecture
 
 class DynamicEditProductViewModel: UpdatingProduct, Dismissible {
     @Injected(\.productGateway)

@@ -11,6 +11,7 @@ import RxSwift
 import Factory
 import APIServiceRx
 import APIService
+import RxCleanArchitecture
 
 protocol RepoGatewayProtocol {
     func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>>

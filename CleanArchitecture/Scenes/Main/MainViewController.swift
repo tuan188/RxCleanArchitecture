@@ -12,6 +12,7 @@ import SDWebImage
 import RxSwift
 import RxCocoa
 import Factory
+import RxCleanArchitecture
 
 final class MainViewController: UIViewController, Bindable {
     

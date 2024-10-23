@@ -12,6 +12,7 @@ import RxCocoa
 import Then
 import UIKit
 import Factory
+import RxCleanArchitecture
 
 enum EditProductDelegate {
     case updatedProduct(Product)

@@ -1,14 +1,21 @@
 //
-//  ViewModel+.swift
+//  ViewModel.swift
 //  MGArchitecture
 //
-//  Created by Tuan Truong on 9/3/20.
+//  Created by Tuan Truong on 8/25/20.
 //  Copyright © 2020 Sun Asterisk. All rights reserved.
 //
 
 import UIKit
 import RxSwift
 import RxCocoa
+
+public protocol ViewModel {
+    associatedtype Input
+    associatedtype Output
+    
+    func transform(_ input: Input, disposeBag: DisposeBag) -> Output
+}
 
 extension ViewModel {
     public func checkIfDataIsEmpty<T: Collection>(trigger: Driver<Bool>, items: Driver<T>) -> Driver<Bool> {
@@ -40,4 +47,3 @@ extension ViewModel where Output == Never {
         
     }
 }
-

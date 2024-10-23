@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import SDWebImage
 import Factory
+import RxCleanArchitecture
 
 final class ReposViewController: UIViewController, Bindable {
     

@@ -13,6 +13,7 @@ import Reusable
 import Then
 import SDWebImage
 import Factory
+import RxCleanArchitecture
 
 final class RepoCarouselViewController: UIViewController, Bindable {
     

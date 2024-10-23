@@ -9,6 +9,7 @@
 import RxSwift
 import RxCocoa
 import Factory
+import RxCleanArchitecture
 
 class ProductDetailViewModel {
     let product: Product

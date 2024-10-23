@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCleanArchitecture
 
 protocol GettingRepoList {
     var repoGateway: RepoGatewayProtocol { get }

@@ -12,6 +12,7 @@ import RxCocoa
 import Reusable
 import SDWebImage
 import Factory
+import RxCleanArchitecture
 
 final class RepoCollectionViewController: UIViewController, Bindable {
     

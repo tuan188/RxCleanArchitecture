@@ -8,6 +8,7 @@
 
 import RxSwift
 import RxCocoa
+import RxCleanArchitecture
 
 class StaticProductDetailViewModel {
     let product: Product

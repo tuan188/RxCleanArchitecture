@@ -9,6 +9,7 @@
 import RxSwift
 import RxCocoa
 import UIKit
+import RxCleanArchitecture
 
 class MainViewModel: ShowLogin,
                      ShowProducts,

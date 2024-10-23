@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import UIKit
 import Factory
+import RxCleanArchitecture
 
 class ProductsViewModel: GettingProductList, DeletingProduct, ShowProductDetail, ShowEditProduct {
     @Injected(\.productGateway)

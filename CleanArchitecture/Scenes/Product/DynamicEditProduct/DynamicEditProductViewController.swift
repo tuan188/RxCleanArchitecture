@@ -12,6 +12,7 @@ import ValidatedPropertyKit
 import RxSwift
 import RxCocoa
 import Factory
+import RxCleanArchitecture
 
 final class DynamicEditProductViewController: UIViewController, Bindable {
     
