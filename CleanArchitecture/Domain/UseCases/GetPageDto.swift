@@ -13,8 +13,4 @@ struct GetPageDto: Dto, Then {
     var page = 1
     var perPage = 10
     var usingCache = false
-    
-    var validatedProperties: [ValidatedProperty] {
-        return []
-    }
 }

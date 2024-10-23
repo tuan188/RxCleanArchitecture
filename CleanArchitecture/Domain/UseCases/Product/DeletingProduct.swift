@@ -11,14 +11,10 @@ import RxSwift
 
 struct DeleteProductDto: Dto {
     @Validated(Validation.greater(0))
-    var id: Int?
+    var id: Int = 0
     
     var validatedProperties: [ValidatedProperty] {
         return [_id]
-    }
-    
-    init(id: Int) {
-        self.id = id
     }
 }
 

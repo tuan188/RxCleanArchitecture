@@ -9,11 +9,11 @@
 import ValidatedPropertyKit
 
 struct LoginDto: Dto {
-    @Validated(!.isEmpty)
-    var username: String? = ""
+    @Validated(!.isEmpty, errorMessage: "Username is required")
+    var username: String = ""
     
-    @Validated(!.isEmpty)
-    var password: String? = ""
+    @Validated(!.isEmpty, errorMessage: "Password is required")
+    var password: String = ""
     
     var validatedProperties: [ValidatedProperty] {
         return [_username, _password]
@@ -21,11 +21,6 @@ struct LoginDto: Dto {
 }
 
 extension LoginDto {
-    init(username: String, password: String) {
-        self.username = username
-        self.password = password
-    }
-    
     static func validateUserName(_ username: String) -> ValidationResult {
         LoginDto(username: username)._username.result
     }

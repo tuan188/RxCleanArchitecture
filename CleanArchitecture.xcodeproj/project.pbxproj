@@ -2063,8 +2063,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tuan188/ValidatedPropertyKit";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.7;
+				kind = exactVersion;
+				version = 0.0.7;
 			};
 		};
 		67EEAD5C2CC6041A00D72042 /* XCRemoteSwiftPackageReference "CoreStore" */ = {

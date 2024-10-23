@@ -66,8 +66,6 @@ final class ProductsViewController: UIViewController, Bindable {
         
         let output = viewModel?.transform(input, disposeBag: disposeBag)
         
-        
-        
         output?.$productList
             .asDriver()
             .drive(onNext: { [unowned self] products in

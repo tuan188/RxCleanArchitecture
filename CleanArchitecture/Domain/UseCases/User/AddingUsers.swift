@@ -10,11 +10,11 @@ import RxSwift
 import ValidatedPropertyKit
 
 struct AddUserDto: Dto {
-    var users: [User]
+    @Validated(!.isEmpty)
+    var users: [User] = []
     
-    init(users: [User]) {
-        self.users = users
-        
+    var validatedProperties: [ValidatedProperty] {
+        [_users]
     }
 }
 

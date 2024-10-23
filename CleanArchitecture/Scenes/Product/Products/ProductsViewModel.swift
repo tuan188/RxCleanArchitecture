@@ -122,6 +122,7 @@ extension ProductsViewModel: ViewModel {
         
         let pageSubject = BehaviorRelay(value: PagingInfo<ProductModel>(page: 1, items: []))
         let updatedProductSubject = PublishSubject<Void>()
+        let deleteProductSubject = PublishSubject<Void>()
         
         let getPageInput = GetPageInput(
             pageSubject: pageSubject,
@@ -140,8 +141,11 @@ extension ProductsViewModel: ViewModel {
         
         let page = Driver.merge(
             getPageResult.page,
-            updatedProductSubject
-                .asDriverOnErrorJustComplete()
+            Driver
+                .merge(
+                    updatedProductSubject.asDriverOnErrorJustComplete(),
+                    deleteProductSubject.asDriverOnErrorJustComplete()
+                )
                 .withLatestFrom(pageSubject.asDriver())
         )
 
@@ -215,6 +219,7 @@ extension ProductsViewModel: ViewModel {
                 
                 let updatedPage = PagingInfo(page: page.page, items: productList)
                 pageSubject.accept(updatedPage)
+                deleteProductSubject.onNext(())
             })
             .disposed(by: disposeBag)
         
