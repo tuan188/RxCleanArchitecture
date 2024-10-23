@@ -11,6 +11,7 @@ import XCTest
 import RxSwift
 import RxTest
 import RxCocoa
+import RxCleanArchitecture
 
 final class ProductsViewModelTests: XCTestCase {
     private var viewModel: TestProductsViewModel!

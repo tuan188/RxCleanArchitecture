@@ -14,7 +14,7 @@ extension Validated: ValidatedProperty {
         return nil
     }
 
-    var result: ValidationResult {
+    public var result: ValidationResult {
         if isValid {
             return .success(())
         } else if let error {

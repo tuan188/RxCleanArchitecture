@@ -13,6 +13,7 @@ import Then
 import UIKit
 import Factory
 import RxCleanArchitecture
+import Dto
 
 enum EditProductDelegate {
     case updatedProduct(Product)

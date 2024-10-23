@@ -12,6 +12,7 @@ import RxCocoa
 import Factory
 import UIKit
 import RxCleanArchitecture
+import Dto
 
 class LoginViewModel: ShowAutoCloseMessage, LoggingIn {
     unowned var navigationController: UINavigationController

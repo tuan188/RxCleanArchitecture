@@ -13,6 +13,7 @@ import RxSwift
 import RxCocoa
 import Factory
 import RxCleanArchitecture
+import Dto
 
 final class DynamicEditProductViewController: UIViewController, Bindable {
     

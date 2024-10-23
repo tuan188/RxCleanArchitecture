@@ -8,6 +8,7 @@
 
 import ValidatedPropertyKit
 import Then
+import Dto
 
 struct ProductDto: Dto {
     var id = 0

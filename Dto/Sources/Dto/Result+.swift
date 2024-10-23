@@ -1,10 +1,10 @@
 import ValidatedPropertyKit
 
-typealias ValidationResult = Result<Void, ValidationError>
+public typealias ValidationResult = Result<Void, ValidationError>
 
 extension Result where Failure == ValidationError {
     
-    var message: String {
+    public var message: String {
         switch self {
         case .success:
             return ""
@@ -13,7 +13,7 @@ extension Result where Failure == ValidationError {
         }
     }
     
-    var isValid: Bool {
+    public var isValid: Bool {
         switch self {
         case .success:
             return true
@@ -22,7 +22,7 @@ extension Result where Failure == ValidationError {
         }
     }
     
-    func mapToVoid() -> ValidationResult {
+    public func mapToVoid() -> ValidationResult {
         return self.map { _ in () }
     }
 }

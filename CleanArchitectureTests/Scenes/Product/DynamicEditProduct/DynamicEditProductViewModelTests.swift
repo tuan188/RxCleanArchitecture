@@ -10,6 +10,7 @@
 import XCTest
 import RxSwift
 import ValidatedPropertyKit
+import Dto
 
 final class DynamicEditProductViewModelTests: XCTestCase {
     private var viewModel: TestDynamicEditProductViewModel!

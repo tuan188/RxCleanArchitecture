@@ -6,6 +6,7 @@
 //  Copyright © 2018 Sun Asterisk. All rights reserved.
 //
 
+import Dto
 import ValidatedPropertyKit
 import UIKit
 

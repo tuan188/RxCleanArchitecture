@@ -10,6 +10,7 @@
 import XCTest
 import RxTest
 import RxSwift
+import RxCleanArchitecture
 
 final class GettingRepoListTests: XCTestCase, GettingRepoList {
     

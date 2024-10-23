@@ -8,6 +8,7 @@
 
 import ValidatedPropertyKit
 import Then
+import Dto
 
 struct GetPageDto: Dto, Then {
     var page = 1

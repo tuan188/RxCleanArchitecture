@@ -9,6 +9,7 @@
 @testable import CleanArchitecture
 import UIKit
 import RxSwift
+import RxCleanArchitecture
 
 final class ProductGatewayMock: ProductGatewayProtocol {
 

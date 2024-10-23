@@ -9,6 +9,7 @@
 @testable import CleanArchitecture
 import XCTest
 import RxSwift
+import RxCleanArchitecture
 
 final class ReposViewModelTests: XCTestCase {
     private var viewModel: TestReposViewModel!

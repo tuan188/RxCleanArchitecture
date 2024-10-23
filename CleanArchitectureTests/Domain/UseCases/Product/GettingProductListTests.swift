@@ -11,6 +11,7 @@ import XCTest
 import RxTest
 import RxSwift
 import RxCocoa
+import RxCleanArchitecture
 
 final class GettingProductListTests: XCTestCase, GettingProductList {
     var productGateway: ProductGatewayProtocol {
