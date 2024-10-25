@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreDataRepository
 
 extension User: CoreDataMappable {
     init?(entity: CDUser) {

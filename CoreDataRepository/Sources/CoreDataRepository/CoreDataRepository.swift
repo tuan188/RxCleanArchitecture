@@ -1,11 +1,3 @@
-//
-//  CoreDataRepository.swift
-//  CleanArchitecture
-//
-//  Created by truong.anh.tuan on 21/10/24.
-//  Copyright © 2024 Sun Asterisk. All rights reserved.
-//
-
 import Foundation
 import CoreStore
 import RxSwift

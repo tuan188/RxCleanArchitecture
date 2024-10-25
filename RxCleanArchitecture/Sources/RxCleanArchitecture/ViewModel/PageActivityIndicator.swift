@@ -1,11 +1,3 @@
-//
-//  PageActivityIndicator.swift
-//  MGArchitecture
-//
-//  Created by Tuan Truong on 7/19/19.
-//  Copyright © 2019 Sun Asterisk. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa

@@ -13,6 +13,7 @@ import RxCocoa
 import SDWebImage
 import Factory
 import RxCleanArchitecture
+import PagingTableView
 
 final class ReposViewController: UIViewController, Bindable {
     

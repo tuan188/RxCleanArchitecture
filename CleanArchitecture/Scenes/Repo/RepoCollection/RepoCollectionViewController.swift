@@ -13,6 +13,7 @@ import Reusable
 import SDWebImage
 import Factory
 import RxCleanArchitecture
+import PagingTableView
 
 final class RepoCollectionViewController: UIViewController, Bindable {
     

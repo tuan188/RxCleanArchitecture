@@ -1,11 +1,3 @@
-//
-//  Property.swift
-//  MGArchitecture
-//
-//  Created by Tuan Truong on 8/25/20.
-//  Copyright © 2020 Sun Asterisk. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa

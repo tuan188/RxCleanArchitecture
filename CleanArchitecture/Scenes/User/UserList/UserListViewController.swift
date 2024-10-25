@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import Factory
 import RxCleanArchitecture
+import PagingTableView
 
 final class UserListViewController: UIViewController, Bindable {
     

@@ -3,7 +3,7 @@ import RxCocoa
 import RxSwift
 import ESPullToRefresh
 
-class PagingTableView: UITableView {
+open class PagingTableView: UITableView {
     private let _refreshControl = UIRefreshControl()
     
     open var isRefreshing: Binder<Bool> {

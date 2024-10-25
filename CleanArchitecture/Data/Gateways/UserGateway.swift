@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import Factory
 import CoreStore
+import CoreDataRepository
 
 protocol UserGatewayProtocol {
     func getUsers() -> Observable<[User]>

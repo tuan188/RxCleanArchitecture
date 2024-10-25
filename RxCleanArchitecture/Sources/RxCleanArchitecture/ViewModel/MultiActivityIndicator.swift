@@ -1,11 +1,3 @@
-//
-//  MultiActivityIndicator.swift
-//  MGArchitecture
-//
-//  Created by Tuan Truong on 7/8/19.
-//  Copyright © 2019 Sun Asterisk. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa

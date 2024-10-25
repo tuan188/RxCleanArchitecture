@@ -14,6 +14,7 @@ import Then
 import SDWebImage
 import Factory
 import RxCleanArchitecture
+import PagingTableView
 
 final class RepoCarouselViewController: UIViewController, Bindable {
     

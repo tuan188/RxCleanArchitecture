@@ -1,11 +1,3 @@
-//
-//  ViewModel+GetPage.swift
-//  MGArchitecture
-//
-//  Created by Tuan Truong on 9/3/20.
-//  Copyright © 2020 Sun Asterisk. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
