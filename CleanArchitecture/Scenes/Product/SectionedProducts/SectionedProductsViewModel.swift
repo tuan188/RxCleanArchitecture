@@ -93,23 +93,23 @@ extension SectionedProductsViewModel: ViewModel {
         let pageSubject = BehaviorRelay(value: PagingInfo<ProductModel>(page: 1, items: []))
         let updatedProductSubject = PublishSubject<Void>()
         
-        let getPageInput = GetPageInput(
+        let config = PageFetchConfig(
             pageSubject: pageSubject,
             pageActivityIndicator: activityIndicator,
             errorTracker: errorTracker,
             loadTrigger: input.load,
             reloadTrigger: input.reload,
             loadMoreTrigger: input.loadMore,
-            getItems: { [unowned self] _, page in
+            fetchItems: { [unowned self] _, page in
                 getProductList(page: page)
             },
             mapper: ProductModel.init(product:)
         )
         
-        let getPageResult = getPage(input: getPageInput)
+        let fetchPageResult = fetchPage(config: config)
         
         let page = Driver.merge(
-            getPageResult.page,
+            fetchPageResult.page,
             updatedProductSubject
                 .asDriverOnErrorJustComplete()
                 .withLatestFrom(pageSubject.asDriver())
@@ -154,8 +154,8 @@ extension SectionedProductsViewModel: ViewModel {
             })
             .disposed(by: disposeBag)
         
-        checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading),
-                           items: productSections)
+        isDataEmpty(loadingTrigger: Driver.merge(isLoading, isReloading),
+                    dataItems: productSections)
             .drive(output.$isEmpty)
             .disposed(by: disposeBag)
         

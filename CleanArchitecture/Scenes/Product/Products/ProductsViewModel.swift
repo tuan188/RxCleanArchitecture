@@ -125,23 +125,23 @@ extension ProductsViewModel: ViewModel {
         let updatedProductSubject = PublishSubject<Void>()
         let deleteProductSubject = PublishSubject<Void>()
         
-        let getPageInput = GetPageInput(
+        let config = PageFetchConfig(
             pageSubject: pageSubject,
             pageActivityIndicator: activityIndicator,
             errorTracker: errorTracker,
             loadTrigger: input.load,
             reloadTrigger: input.reload,
             loadMoreTrigger: input.loadMore,
-            getItems: { [unowned self] _, page in
+            fetchItems: { [unowned self] _, page in
                 return getProductList(page: page)
             },
             mapper: ProductModel.init(product:)
         )
         
-        let getPageResult = getPage(input: getPageInput)
+        let fetchPageResult = fetchPage(config: config)
         
         let page = Driver.merge(
-            getPageResult.page,
+            fetchPageResult.page,
             Driver
                 .merge(
                     updatedProductSubject.asDriverOnErrorJustComplete(),
@@ -160,7 +160,7 @@ extension ProductsViewModel: ViewModel {
         
         // Select product
         
-        select(trigger: input.selectProduct, items: productList)
+        selectItem(at: input.selectProduct, from: productList)
             .drive(onNext: { product in
                 self.vm_showProductDetail(product: product.product)
             })
@@ -168,7 +168,7 @@ extension ProductsViewModel: ViewModel {
         
         // Edit product
         
-        select(trigger: input.editProduct, items: productList)
+        selectItem(at: input.editProduct, from: productList)
             .map { $0.product }
             .flatMapLatest { product -> Driver<EditProductDelegate> in
                 self.vm_showEditProduct(product)
@@ -192,14 +192,14 @@ extension ProductsViewModel: ViewModel {
         
         // Check empty
 
-        checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading),
-                           items: productList)
+        isDataEmpty(loadingTrigger: Driver.merge(isLoading, isReloading),
+                    dataItems: productList)
             .drive(output.$isEmpty)
             .disposed(by: disposeBag)
         
         // Delete product
         
-        select(trigger: input.deleteProduct, items: productList)
+        selectItem(at: input.deleteProduct, from: productList)
             .map { $0.product }
             .flatMapLatest { product -> Driver<Product> in
                 self.confirmDeleteProduct(product)

@@ -52,16 +52,15 @@ extension ReposViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
         
-        let getPageInput = GetPageInput(
+        let config = PageFetchConfig(
             loadTrigger: input.load,
             reloadTrigger: input.reload,
             loadMoreTrigger: input.loadMore,
-            getItems: { [unowned self] page in
+            fetchItems: { [unowned self] page in
                 getRepoList(page: page)
             })
         
-        let getPageResult = getPage(input: getPageInput)
-        let (page, pagingError, isLoading, isReloading, isLoadingMore) = getPageResult.destructured
+        let (page, pagingError, isLoading, isReloading, isLoadingMore) = fetchPage(config: config).destructured
 
         let repoList = page
             .map { $0.items }
@@ -71,11 +70,11 @@ extension ReposViewModel: ViewModel {
             .drive(output.$repoList)
             .disposed(by: disposeBag)
 
-        select(trigger: input.selectRepo, items: repoList)
+        selectItem(at: input.selectRepo, from: repoList)
             .drive(onNext: vm_showRepoDetail)
             .disposed(by: disposeBag)
         
-        checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)
+        isDataEmpty(loadingTrigger: Driver.merge(isLoading, isReloading), dataItems: repoList)
             .drive(output.$isEmpty)
             .disposed(by: disposeBag)
         

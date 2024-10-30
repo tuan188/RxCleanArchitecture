@@ -44,15 +44,14 @@ extension UserListViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
         
-        let getListInput = GetListInput(
+        let config = ListFetchConfig(
             loadTrigger: input.load,
             reloadTrigger: input.reload,
-            getItems: { [unowned self] in
+            fetchItems: { [unowned self] in
                 vm_getUsers()
             })
         
-        let getListResult = getList(input: getListInput)
-        let (userList, error, isLoading, isReloading) = getListResult.destructured
+        let (userList, error, isLoading, isReloading) = fetchList(config: config).destructured
         
         error
             .drive(output.$error)
@@ -71,12 +70,12 @@ extension UserListViewModel: ViewModel {
             .drive(output.$userList)
             .disposed(by: disposeBag)
 
-        select(trigger: input.selectUser, items: userList)
+        selectItem(at: input.selectUser, from: userList)
             .drive(onNext: showUserDetail)
             .disposed(by: disposeBag)
         
-        checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading),
-                           items: userList)
+        isDataEmpty(loadingTrigger: Driver.merge(isLoading, isReloading),
+                    dataItems: userList)
             .drive(output.$isEmpty)
             .disposed(by: disposeBag)
         

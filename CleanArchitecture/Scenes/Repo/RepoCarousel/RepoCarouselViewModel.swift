@@ -49,16 +49,15 @@ extension RepoCarouselViewModel: ViewModel {
     func transform(_ input: Input, disposeBag: DisposeBag) -> Output {
         let output = Output()
         
-        let getListInput = GetListInput(
+        let config = ListFetchConfig(
             loadTrigger: input.load,
             reloadTrigger: input.reload,
-            getItems: { [unowned self] in
+            fetchItems: { [unowned self] in
                 getRepoList()
             }
         )
         
-        let getListResult = getList(input: getListInput)
-        let (repoList, error, isLoading, isReloading) = getListResult.destructured
+        let (repoList, error, isLoading, isReloading) = fetchList(config: config).destructured
             
         let sections = repoList
             .map { repos -> [PageSectionViewModel] in
@@ -103,7 +102,7 @@ extension RepoCarouselViewModel: ViewModel {
             .drive(onNext: showPageItemDetail)
             .disposed(by: disposeBag)
         
-        checkIfDataIsEmpty(trigger: Driver.merge(isLoading, isReloading), items: repoList)
+        isDataEmpty(loadingTrigger: Driver.merge(isLoading, isReloading), dataItems: repoList)
             .drive(output.$isEmpty)
             .disposed(by: disposeBag)
         
