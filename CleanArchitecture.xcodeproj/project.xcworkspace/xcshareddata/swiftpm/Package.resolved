@@ -1,96 +1,106 @@
 {
-  "originHash" : "97dc21f3c634a10a4cae7a5aebe88b3960a0f34822b7dad40d6171c84987587d",
-  "pins" : [
-    {
-      "identity" : "corestore",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JohnEstropia/CoreStore",
-      "state" : {
-        "revision" : "4b6d9a54e75d2c9fd2c3c768f7d4aa3175c09133",
-        "version" : "9.2.0"
+  "object": {
+    "pins": [
+      {
+        "package": "CoreStore",
+        "repositoryURL": "https://github.com/JohnEstropia/CoreStore",
+        "state": {
+          "branch": null,
+          "revision": "4b6d9a54e75d2c9fd2c3c768f7d4aa3175c09133",
+          "version": "9.2.0"
+        }
+      },
+      {
+        "package": "Dto",
+        "repositoryURL": "https://github.com/tuan188/Dto",
+        "state": {
+          "branch": null,
+          "revision": "4a991bb29b79a039a4849c0b89cf8f3ace709267",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "Factory",
+        "repositoryURL": "https://github.com/hmlongco/Factory",
+        "state": {
+          "branch": null,
+          "revision": "587995f7d5cc667951d635fbf6b4252324ba0439",
+          "version": "2.3.2"
+        }
+      },
+      {
+        "package": "MBProgressHUD",
+        "repositoryURL": "https://github.com/jdg/MBProgressHUD",
+        "state": {
+          "branch": null,
+          "revision": "bca42b801100b2b3a4eda0ba8dd33d858c780b0d",
+          "version": "1.2.0"
+        }
+      },
+      {
+        "package": "pull-to-refresh",
+        "repositoryURL": "https://github.com/eggswift/pull-to-refresh",
+        "state": {
+          "branch": null,
+          "revision": "a858aaeb44abc6428af916e8496429d244fac053",
+          "version": "2.9.3"
+        }
+      },
+      {
+        "package": "Reusable",
+        "repositoryURL": "https://github.com/AliSoftware/Reusable",
+        "state": {
+          "branch": null,
+          "revision": "18674709421360e210c2ecd4e8e08b217d4ea61d",
+          "version": "4.1.2"
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift",
+        "state": {
+          "branch": null,
+          "revision": "c7c7d2cf50a3211fe2843f76869c698e4e417930",
+          "version": "6.8.0"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage",
+        "state": {
+          "branch": null,
+          "revision": "8a1be70a625683bc04d6903e2935bf23f3c6d609",
+          "version": "5.19.7"
+        }
+      },
+      {
+        "package": "tech-standard-ios-api",
+        "repositoryURL": "https://github.com/sun-asterisk/tech-standard-ios-api",
+        "state": {
+          "branch": null,
+          "revision": "256c1e4854eac94644f14a2a6d338f86300378c2",
+          "version": "0.18.0"
+        }
+      },
+      {
+        "package": "Then",
+        "repositoryURL": "https://github.com/devxoul/Then",
+        "state": {
+          "branch": null,
+          "revision": "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
+          "version": "3.0.0"
+        }
+      },
+      {
+        "package": "ValidatedPropertyKit",
+        "repositoryURL": "https://github.com/tuan188/ValidatedPropertyKit.git",
+        "state": {
+          "branch": null,
+          "revision": "c75f4baae61e1a7b9df20bf4db20a4b6e5325231",
+          "version": "0.0.8"
+        }
       }
-    },
-    {
-      "identity" : "factory",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hmlongco/Factory",
-      "state" : {
-        "revision" : "587995f7d5cc667951d635fbf6b4252324ba0439",
-        "version" : "2.3.2"
-      }
-    },
-    {
-      "identity" : "mbprogresshud",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jdg/MBProgressHUD",
-      "state" : {
-        "revision" : "bca42b801100b2b3a4eda0ba8dd33d858c780b0d",
-        "version" : "1.2.0"
-      }
-    },
-    {
-      "identity" : "pull-to-refresh",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/eggswift/pull-to-refresh",
-      "state" : {
-        "revision" : "a858aaeb44abc6428af916e8496429d244fac053",
-        "version" : "2.9.3"
-      }
-    },
-    {
-      "identity" : "reusable",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AliSoftware/Reusable",
-      "state" : {
-        "revision" : "18674709421360e210c2ecd4e8e08b217d4ea61d",
-        "version" : "4.1.2"
-      }
-    },
-    {
-      "identity" : "rxswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactiveX/RxSwift",
-      "state" : {
-        "revision" : "c7c7d2cf50a3211fe2843f76869c698e4e417930",
-        "version" : "6.8.0"
-      }
-    },
-    {
-      "identity" : "sdwebimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImage",
-      "state" : {
-        "revision" : "8a1be70a625683bc04d6903e2935bf23f3c6d609",
-        "version" : "5.19.7"
-      }
-    },
-    {
-      "identity" : "tech-standard-ios-api",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sun-asterisk/tech-standard-ios-api",
-      "state" : {
-        "revision" : "256c1e4854eac94644f14a2a6d338f86300378c2",
-        "version" : "0.18.0"
-      }
-    },
-    {
-      "identity" : "then",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/devxoul/Then",
-      "state" : {
-        "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
-        "version" : "3.0.0"
-      }
-    },
-    {
-      "identity" : "validatedpropertykit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tuan188/ValidatedPropertyKit",
-      "state" : {
-        "revision" : "6419cce6527a9e0f7c6a7c2e8767a9da32b7e1bb",
-        "version" : "0.0.7"
-      }
-    }
-  ],
-  "version" : 3
+    ]
+  },
+  "version": 1
 }

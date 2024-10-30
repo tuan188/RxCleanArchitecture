@@ -199,6 +199,7 @@
 		674F98E12CC8E96D007D3B6A /* RxCleanArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 674F98E02CC8E96D007D3B6A /* RxCleanArchitecture */; };
 		674F98E52CC8EC55007D3B6A /* Dto in Frameworks */ = {isa = PBXBuildFile; productRef = 674F98E42CC8EC55007D3B6A /* Dto */; };
 		674F98E82CC8ECEA007D3B6A /* Dto in Frameworks */ = {isa = PBXBuildFile; productRef = 674F98E72CC8ECEA007D3B6A /* Dto */; };
+		679680872CD1EC7E005B8F13 /* Dto in Frameworks */ = {isa = PBXBuildFile; productRef = 679680862CD1EC7E005B8F13 /* Dto */; };
 		67EEAD622CC60D4D00D72042 /* User+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EEAD612CC60D4D00D72042 /* User+CoreData.swift */; };
 		67EEAD7A2CC6514000D72042 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178F566D21EF0FB2008D22AB /* LoginViewModelTests.swift */; };
 		67EEAD7B2CC6514000D72042 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178F566E21EF0FB2008D22AB /* LoginViewControllerTests.swift */; };
@@ -419,7 +420,6 @@
 		6707B4562CCB5551008A7651 /* PagingTableView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PagingTableView; sourceTree = "<group>"; };
 		670EA6AE2CBF729D00AC938E /* SharedSequenceConvertibleType+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SharedSequenceConvertibleType+.swift"; sourceTree = "<group>"; };
 		674F98DE2CC8E73E007D3B6A /* RxCleanArchitecture */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RxCleanArchitecture; sourceTree = "<group>"; };
-		674F98E22CC8EBAC007D3B6A /* Dto */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Dto; sourceTree = "<group>"; };
 		67EEAD612CC60D4D00D72042 /* User+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreData.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -433,6 +433,7 @@
 				6707B4522CCB46D8008A7651 /* CoreDataRepository in Frameworks */,
 				6707B44F2CCB46B4008A7651 /* CoreDataRepository in Frameworks */,
 				6707B4552CCB46F4008A7651 /* RxCleanArchitecture in Frameworks */,
+				679680872CD1EC7E005B8F13 /* Dto in Frameworks */,
 				17E7CB582B5505E300AAB394 /* MBProgressHUD in Frameworks */,
 				17F53B8B2CBCD6050063FE56 /* APIServiceRx in Frameworks */,
 				17E7CB522B55057700AAB394 /* Reusable in Frameworks */,
@@ -547,7 +548,6 @@
 			children = (
 				6707B4562CCB5551008A7651 /* PagingTableView */,
 				6707B44C2CCB4595008A7651 /* CoreDataRepository */,
-				674F98E22CC8EBAC007D3B6A /* Dto */,
 				674F98DE2CC8E73E007D3B6A /* RxCleanArchitecture */,
 				172DC22720C4DDF9009FC881 /* CleanArchitecture */,
 				172DC23C20C4DDFB009FC881 /* CleanArchitectureTests */,
@@ -1271,6 +1271,7 @@
 				6707B4582CCB565C008A7651 /* PagingTableView */,
 				6707B45B2CCB57B7008A7651 /* RxCocoa */,
 				6707B45D2CCB57B7008A7651 /* RxSwift */,
+				679680862CD1EC7E005B8F13 /* Dto */,
 			);
 			productName = CleanArchitecture;
 			productReference = 172DC22520C4DDF9009FC881 /* CleanArchitecture.app */;
@@ -1338,11 +1339,11 @@
 				17E9523B2CA141AF00BD57D4 /* XCRemoteSwiftPackageReference "Factory" */,
 				17B0CA022CAA8D2F0039B8C0 /* XCRemoteSwiftPackageReference "pull-to-refresh" */,
 				17F53B892CBCD6050063FE56 /* XCRemoteSwiftPackageReference "tech-standard-ios-api" */,
-				674F98E62CC8ECEA007D3B6A /* XCLocalSwiftPackageReference "Dto" */,
 				6707B4502CCB46D8008A7651 /* XCLocalSwiftPackageReference "CoreDataRepository" */,
 				6707B4532CCB46F4008A7651 /* XCLocalSwiftPackageReference "RxCleanArchitecture" */,
 				6707B4572CCB565C008A7651 /* XCLocalSwiftPackageReference "PagingTableView" */,
 				6707B45A2CCB57B7008A7651 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				679680852CD1EC7E005B8F13 /* XCRemoteSwiftPackageReference "Dto" */,
 			);
 			productRefGroup = 172DC22620C4DDF9009FC881 /* Products */;
 			projectDirPath = "";
@@ -1868,10 +1869,6 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = PagingTableView;
 		};
-		674F98E62CC8ECEA007D3B6A /* XCLocalSwiftPackageReference "Dto" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Dto;
-		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -1937,6 +1934,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 6.8.0;
+			};
+		};
+		679680852CD1EC7E005B8F13 /* XCRemoteSwiftPackageReference "Dto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tuan188/Dto";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -2018,6 +2023,11 @@
 		};
 		674F98E72CC8ECEA007D3B6A /* Dto */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = Dto;
+		};
+		679680862CD1EC7E005B8F13 /* Dto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 679680852CD1EC7E005B8F13 /* XCRemoteSwiftPackageReference "Dto" */;
 			productName = Dto;
 		};
 /* End XCSwiftPackageProductDependency section */
