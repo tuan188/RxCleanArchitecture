@@ -1,5 +1,5 @@
 //
-//  GetPageDto.swift
+//  FetchPageDto.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 8/26/20.
@@ -10,7 +10,7 @@ import ValidatedPropertyKit
 import Then
 import Dto
 
-struct GetPageDto: Dto, Then {
+struct FetchPageDto: Dto, Then {
     var page = 1
     var perPage = 10
     var usingCache = false

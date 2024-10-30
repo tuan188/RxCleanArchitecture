@@ -1,5 +1,5 @@
 //
-//  GettingUsers.swift
+//  FetchUsers.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/24/20.
@@ -8,12 +8,12 @@
 
 import RxSwift
 
-protocol GettingUsers {
+protocol FetchUsers {
     var userGatewayType: UserGatewayProtocol { get }
 }
 
-extension GettingUsers {
-    func getUsers() -> Observable<[User]> {
-        return userGatewayType.getUsers()
+extension FetchUsers {
+    func fetchUsers() -> Observable<[User]> {
+        return userGatewayType.fetchUsers()
     }
 }

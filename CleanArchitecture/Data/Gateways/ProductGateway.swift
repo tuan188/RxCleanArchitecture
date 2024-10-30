@@ -13,13 +13,13 @@ import Factory
 import RxCleanArchitecture
 
 protocol ProductGatewayProtocol {
-    func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>>
+    func fetchProducts(dto: FetchPageDto) -> Observable<PagingInfo<Product>>
     func deleteProduct(dto: DeleteProductDto) -> Observable<Void>
     func update(_ product: ProductDto) -> Observable<Void>
 }
 
 struct ProductGateway: ProductGatewayProtocol {
-    func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
+    func fetchProducts(dto: FetchPageDto) -> Observable<PagingInfo<Product>> {
         let page = dto.page
         
         return Observable.create { observer in
@@ -53,7 +53,7 @@ struct ProductGateway: ProductGatewayProtocol {
 
 struct LocalAPIProductGateway: ProductGatewayProtocol {
 
-    func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
+    func fetchProducts(dto: FetchPageDto) -> Observable<PagingInfo<Product>> {
 //        return API.shared.getProductList(API.GetProductListInput())
 //            .map { PagingInfo(page: 1, items: $0) }
         return Observable.empty()

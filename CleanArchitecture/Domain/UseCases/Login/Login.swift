@@ -1,5 +1,5 @@
 //
-//  LoggingIn.swift
+//  Login.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/26/20.
@@ -11,11 +11,11 @@ import RxSwift
 import Dto
 import ValidatedPropertyKit
 
-protocol LoggingIn {
+protocol Login {
     
 }
 
-extension LoggingIn {
+extension Login {
     func login(dto: LoginDto) -> Observable<Void> {
         if let error = dto.validationError {
             return Observable.error(error)

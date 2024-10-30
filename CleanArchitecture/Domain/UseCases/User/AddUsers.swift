@@ -19,11 +19,11 @@ struct AddUserDto: Dto {
     }
 }
 
-protocol AddingUsers {
+protocol AddUsers {
     var userGatewayType: UserGatewayProtocol { get }
 }
 
-extension AddingUsers {
+extension AddUsers {
     func add(dto: AddUserDto) -> Observable<Void> {
         if let error = dto.validationError {
             return Observable.error(error)

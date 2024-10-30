@@ -12,7 +12,7 @@ import UIKit
 import Factory
 import RxCleanArchitecture
 
-class RepoCarouselViewModel: GettingRepoList, ShowPageItemDetail {
+class RepoCarouselViewModel: FetchRepos, ShowPageItemDetail {
     @Injected(\.repoGateway)
     var repoGateway: RepoGatewayProtocol
 
@@ -23,7 +23,7 @@ class RepoCarouselViewModel: GettingRepoList, ShowPageItemDetail {
     }
     
     func getRepoList() -> Observable<[Repo]> {
-        return getRepoList(dto: GetPageDto(page: 1, perPage: 20, usingCache: true))
+        return fetchRepos(dto: FetchPageDto(page: 1, perPage: 20, usingCache: true))
             .map {
                 $0.items
             }

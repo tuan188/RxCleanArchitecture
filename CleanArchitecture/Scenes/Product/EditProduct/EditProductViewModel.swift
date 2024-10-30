@@ -19,7 +19,7 @@ enum EditProductDelegate {
     case updatedProduct(Product)
 }
 
-class EditProductViewModel: UpdatingProduct, Dismissible {
+class EditProductViewModel: UpdateProduct, Dismissible {
     @Injected(\.productGateway)
     var productGateway: ProductGatewayProtocol
 

@@ -12,7 +12,7 @@ import UIKit
 import Factory
 import RxCleanArchitecture
 
-class UserListViewModel: GettingUsers {
+class UserListViewModel: FetchUsers {
     @Injected(\.userGateway)
     var userGatewayType: UserGatewayProtocol
 
@@ -21,7 +21,7 @@ class UserListViewModel: GettingUsers {
     }
     
     func vm_getUsers() -> Observable<[User]> {
-        getUsers()
+        fetchUsers()
     }
 }
 

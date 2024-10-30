@@ -14,7 +14,7 @@ import APIService
 import RxCleanArchitecture
 
 protocol RepoGatewayProtocol {
-    func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>>
+    func fetchRepos(dto: FetchPageDto) -> Observable<PagingInfo<Repo>>
 }
 
 struct RepoGateway: RepoGatewayProtocol {
@@ -22,7 +22,7 @@ struct RepoGateway: RepoGatewayProtocol {
         let items: [Repo]
     }
     
-    func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>> {
+    func fetchRepos(dto: FetchPageDto) -> Observable<PagingInfo<Repo>> {
         let (page, perPage) = (dto.page, dto.perPage)
 
         return APIServices.rxSwift

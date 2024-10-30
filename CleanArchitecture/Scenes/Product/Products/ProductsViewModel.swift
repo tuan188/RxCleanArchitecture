@@ -12,7 +12,7 @@ import UIKit
 import Factory
 import RxCleanArchitecture
 
-class ProductsViewModel: GettingProductList, DeletingProduct, ShowProductDetail, ShowEditProduct {
+class ProductsViewModel: FetchProductList, DeleteProduct, ShowProductDetail, ShowEditProduct {
     @Injected(\.productGateway)
     var productGateway: ProductGatewayProtocol
     
@@ -23,8 +23,8 @@ class ProductsViewModel: GettingProductList, DeletingProduct, ShowProductDetail,
     }
     
     func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
-        let dto = GetPageDto(page: page, perPage: 10, usingCache: true)
-        return getProductList(dto: dto)
+        let dto = FetchPageDto(page: page, perPage: 10, usingCache: true)
+        return fetchProducts(dto: dto)
     }
     
     func vm_deleteProduct(dto: DeleteProductDto) -> Observable<Void> {

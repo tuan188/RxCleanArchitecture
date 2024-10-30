@@ -12,7 +12,7 @@ import Factory
 import UIKit
 import RxCleanArchitecture
 
-class AppViewModel: SettingUpUserData, ShowMain {
+class AppViewModel: SetUpUserData, ShowMain {
     @Injected(\.appGateway)
     var appGateway: AppGatewayProtocol
     

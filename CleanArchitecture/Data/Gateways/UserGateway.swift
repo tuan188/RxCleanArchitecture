@@ -13,7 +13,7 @@ import CoreStore
 import CoreDataRepository
 
 protocol UserGatewayProtocol {
-    func getUsers() -> Observable<[User]>
+    func fetchUsers() -> Observable<[User]>
     func add(dto: AddUserDto) -> Observable<Void>
 }
 
@@ -26,7 +26,7 @@ class UserGateway: UserGatewayProtocol, CoreDataRepository {
         self.dataStack = dataStack
     }
 
-    func getUsers() -> Observable<[User]> {
+    func fetchUsers() -> Observable<[User]> {
         fetchAll()
     }
     

@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 import RxCleanArchitecture
 
-final class GettingProductListTests: XCTestCase, GettingProductList {
+final class GettingProductListTests: XCTestCase, FetchProductList {
     var productGateway: ProductGatewayProtocol {
         return productGatewayMock
     }
@@ -33,7 +33,7 @@ final class GettingProductListTests: XCTestCase, GettingProductList {
 
     func test_getProductList() {
         // act
-        self.getProductList(dto: GetPageDto(page: 1))
+        self.fetchProducts(dto: FetchPageDto(page: 1))
             .subscribe(getProductListOutput)
             .disposed(by: disposeBag)
 
@@ -47,7 +47,7 @@ final class GettingProductListTests: XCTestCase, GettingProductList {
         productGatewayMock.getProductListReturnValue = Observable.error(TestError())
 
         // act
-        self.getProductList(dto: GetPageDto(page: 1))
+        self.fetchProducts(dto: FetchPageDto(page: 1))
             .subscribe(getProductListOutput)
             .disposed(by: disposeBag)
 

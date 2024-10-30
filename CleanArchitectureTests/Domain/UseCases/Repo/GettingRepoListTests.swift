@@ -12,7 +12,7 @@ import RxTest
 import RxSwift
 import RxCleanArchitecture
 
-final class GettingRepoListTests: XCTestCase, GettingRepoList {
+final class GettingRepoListTests: XCTestCase, FetchRepos {
     
     var repoGateway: RepoGatewayProtocol {
         return repoGatewayMock
@@ -37,7 +37,7 @@ final class GettingRepoListTests: XCTestCase, GettingRepoList {
 
     func test_getRepoList() {
         // act
-        self.getRepoList(dto: GetPageDto(page: 1, perPage: 10, usingCache: false))
+        self.fetchRepos(dto: FetchPageDto(page: 1, perPage: 10, usingCache: false))
             .subscribe(getRepoListOutput)
             .disposed(by: disposeBag)
 
@@ -50,7 +50,7 @@ final class GettingRepoListTests: XCTestCase, GettingRepoList {
         repoGatewayMock.getRepoListReturnValue = Observable.error(TestError())
         
         // act
-        self.getRepoList(dto: GetPageDto(page: 1, perPage: 10, usingCache: false))
+        self.fetchRepos(dto: FetchPageDto(page: 1, perPage: 10, usingCache: false))
             .subscribe(getRepoListOutput)
             .disposed(by: disposeBag)
 

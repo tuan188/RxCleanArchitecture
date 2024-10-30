@@ -1,5 +1,5 @@
 //
-//  SettingUpUserData.swift
+//  SetUpUserData.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/26/20.
@@ -10,12 +10,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol SettingUpUserData {
+protocol SetUpUserData {
     var appGateway: AppGatewayProtocol { get }
     var userGateway: UserGatewayProtocol { get }
 }
 
-extension SettingUpUserData {
+extension SetUpUserData {
     func addUserData() -> Observable<Void> {
         return Observable.just(())
             .map { _ in

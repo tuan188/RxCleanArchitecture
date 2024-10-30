@@ -1,5 +1,5 @@
 //
-//  GettingRepoList.swift
+//  FetchRepos.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/26/20.
@@ -10,12 +10,12 @@ import UIKit
 import RxSwift
 import RxCleanArchitecture
 
-protocol GettingRepoList {
+protocol FetchRepos {
     var repoGateway: RepoGatewayProtocol { get }
 }
 
-extension GettingRepoList {
-    func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>> {
-        return repoGateway.getRepoList(dto: dto)
+extension FetchRepos {
+    func fetchRepos(dto: FetchPageDto) -> Observable<PagingInfo<Repo>> {
+        return repoGateway.fetchRepos(dto: dto)
     }
 }

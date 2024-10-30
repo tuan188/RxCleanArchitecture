@@ -18,7 +18,7 @@ final class RepoGatewayMock: RepoGatewayProtocol {
     var getRepoListCalled = false
     var getRepoListReturnValue = Observable<PagingInfo<Repo>>.empty()
 
-    func getRepoList(dto: GetPageDto) -> Observable<PagingInfo<Repo>> {
+    func fetchRepos(dto: FetchPageDto) -> Observable<PagingInfo<Repo>> {
         getRepoListCalled = true
         return getRepoListReturnValue
     }

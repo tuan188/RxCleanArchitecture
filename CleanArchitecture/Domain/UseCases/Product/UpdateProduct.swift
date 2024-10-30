@@ -1,5 +1,5 @@
 //
-//  UpdatingProduct.swift
+//  UpdateProduct.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/29/20.
@@ -9,11 +9,11 @@
 import UIKit
 import RxSwift
 
-protocol UpdatingProduct {
+protocol UpdateProduct {
     var productGateway: ProductGatewayProtocol { get }
 }
 
-extension UpdatingProduct {
+extension UpdateProduct {
     func updateProduct(_ product: ProductDto) -> Observable<Void> {
         return productGateway.update(product)
     }

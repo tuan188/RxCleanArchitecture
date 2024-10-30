@@ -13,7 +13,7 @@ import UIKit
 import RxCleanArchitecture
 import Dto
 
-class DynamicEditProductViewModel: UpdatingProduct, Dismissible {
+class DynamicEditProductViewModel: UpdateProduct, Dismissible {
     @Injected(\.productGateway)
     var productGateway: ProductGatewayProtocol
 

@@ -13,14 +13,14 @@ import RxCleanArchitecture
 
 final class ProductGatewayMock: ProductGatewayProtocol {
 
-    // MARK: - getProductList
+    // MARK: - fetchProducts
 
     var getProductListCalled = false
     var getProductListReturnValue = Observable<PagingInfo<Product>>.just(
         PagingInfo(page: 1, items: [Product()])
     )
 
-    func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
+    func fetchProducts(dto: FetchPageDto) -> Observable<PagingInfo<Product>> {
         getProductListCalled = true
         return getProductListReturnValue
     }

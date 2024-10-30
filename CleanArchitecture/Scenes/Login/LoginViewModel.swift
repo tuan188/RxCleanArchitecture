@@ -14,7 +14,7 @@ import UIKit
 import RxCleanArchitecture
 import Dto
 
-class LoginViewModel: ShowAutoCloseMessage, LoggingIn {
+class LoginViewModel: ShowAutoCloseMessage, Login {
     unowned var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {

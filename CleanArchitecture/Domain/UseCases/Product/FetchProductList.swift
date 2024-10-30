@@ -1,5 +1,5 @@
 //
-//  GettingProductList.swift
+//  FetchProductList.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/26/20.
@@ -10,12 +10,12 @@ import UIKit
 import RxSwift
 import RxCleanArchitecture
 
-protocol GettingProductList {
+protocol FetchProductList {
     var productGateway: ProductGatewayProtocol { get }
 }
 
-extension GettingProductList {
-    func getProductList(dto: GetPageDto) -> Observable<PagingInfo<Product>> {
-        return productGateway.getProductList(dto: dto)
+extension FetchProductList {
+    func fetchProducts(dto: FetchPageDto) -> Observable<PagingInfo<Product>> {
+        return productGateway.fetchProducts(dto: dto)
     }
 }

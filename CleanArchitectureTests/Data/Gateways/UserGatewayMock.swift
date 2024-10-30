@@ -12,12 +12,12 @@ import RxSwift
 
 final class UserGatewayMock: UserGatewayProtocol {
 
-    // MARK: - getUsers
+    // MARK: - fetchUsers
 
     var getUsersCalled = false
     var getUsersReturnValue = Observable<[User]>.empty()
 
-    func getUsers() -> Observable<[User]> {
+    func fetchUsers() -> Observable<[User]> {
         getUsersCalled = true
         return getUsersReturnValue
     }

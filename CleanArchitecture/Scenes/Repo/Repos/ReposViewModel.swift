@@ -12,7 +12,7 @@ import UIKit
 import Factory
 import RxCleanArchitecture
 
-class ReposViewModel: GettingRepoList, ShowRepoDetail {
+class ReposViewModel: FetchRepos, ShowRepoDetail {
     @Injected(\.repoGateway)
     var repoGateway: RepoGatewayProtocol
     
@@ -23,7 +23,7 @@ class ReposViewModel: GettingRepoList, ShowRepoDetail {
     }
     
     func getRepoList(page: Int) -> Observable<PagingInfo<Repo>> {
-        return getRepoList(dto: GetPageDto(page: page, perPage: 10, usingCache: true))
+        return fetchRepos(dto: FetchPageDto(page: page, perPage: 10, usingCache: true))
     }
     
     func vm_showRepoDetail(repo: Repo) {

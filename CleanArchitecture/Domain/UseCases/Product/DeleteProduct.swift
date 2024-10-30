@@ -1,5 +1,5 @@
 //
-//  DeletingProduct.swift
+//  DeleteProduct.swift
 //  CleanArchitecture
 //
 //  Created by Tuan Truong on 6/26/20.
@@ -19,11 +19,11 @@ struct DeleteProductDto: Dto {
     }
 }
 
-protocol DeletingProduct {
+protocol DeleteProduct {
     var productGateway: ProductGatewayProtocol { get }
 }
 
-extension DeletingProduct {
+extension DeleteProduct {
     func deleteProduct(dto: DeleteProductDto) -> Observable<Void> {
         if let error = dto.validationError {
             return Observable.error(error)

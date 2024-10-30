@@ -12,7 +12,7 @@ import UIKit
 import Factory
 import RxCleanArchitecture
 
-class SectionedProductsViewModel: GettingProductList, ShowStaticProductDetail, ShowDynamicEditProduct {
+class SectionedProductsViewModel: FetchProductList, ShowStaticProductDetail, ShowDynamicEditProduct {
     @Injected(\.productGateway)
     var productGateway: ProductGatewayProtocol
     
@@ -23,8 +23,8 @@ class SectionedProductsViewModel: GettingProductList, ShowStaticProductDetail, S
     }
 
     func getProductList(page: Int) -> Observable<PagingInfo<Product>> {
-        let dto = GetPageDto(page: page, perPage: 10, usingCache: true)
-        return getProductList(dto: dto)
+        let dto = FetchPageDto(page: page, perPage: 10, usingCache: true)
+        return fetchProducts(dto: dto)
     }
     
     func vm_showStaticProductDetail(product: Product) {
